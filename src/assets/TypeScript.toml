@@ -1,0 +1,150 @@
+﻿# snippets for bat
+
+[[tagGroup]]
+name = "構文"
+tags = "変数,配列,辞書,for,サブルーチン,コメント"
+# color="#ccc"
+description = "基本構文"
+
+[[tagGroup]]
+name = "操作"
+tags = "移動,コピー,開く,作成,変更,削除"
+# color="#ccc"
+description = ""
+
+[[tagGroup]]
+name = "Vue"
+tags = "Vue,ディレクティブ,reactive"
+# color="#ccc"
+description = ""
+
+[[tagGroup]]
+name = "その他"
+tags = "ファイル,フォルダ,書,読,待つ,検索"
+# color="#ccc"
+
+
+["WEBからファイル取得して文字列を処理"]
+icon = "unknown"
+description = """
+WEBからファイル取得して文字列を処理
+"""
+code = """
+fetch(_{url}_)
+    .then(response => response.text())
+    .then(input => {
+        _{文字列処理}_
+    });
+"""
+
+["tomlファイルを解析"]
+icon = "unknown"
+description = """
+tomlファイルを解析
+
+事前準備　`import toml from "toml";`
+"""
+code = """
+try {
+    toml.parse(_{TOML文字列}_);
+} catch (e) { console.error(`Parse error on ${tomlPath}. ${e}`); }
+"""
+
+["reactiveな配列の定義"]
+icon = "unknown"
+description = """
+reactiveな配列の定義 #vue
+"""
+code = """
+var _{変数名}_ = reactive([
+{
+    _{キー: "値", ...}_
+},
+]);
+"""
+
+["[vue]v-forとv-ifでinput/div混合したブロックを作成"]
+icon = "unknown"
+description = """
+v-forとv-ifディレクティブでinput/div混合したブロックを作成　#vue
+
+item.isVariable　：　trueならテキストボックスで編集可能にする
+item.code　：　表示文字列
+"""
+code = """
+<template v-for="(item, i) in _{コレクション}_" v-bind:key="i">
+<input
+    type="text"
+    v-if="item.isVariable"
+    v-model="item.code"
+    class="code-item"
+/>
+<div v-else class="code-item">{{ item.code }}</div>
+</template>
+"""
+
+
+
+["[vue]v-forディレクティブの例：ボタンをたくさん作成"]
+icon = "unknown"
+description = """
+v-forでボタンをたくさん作成 #vue
+"""
+code = """
+<button
+class="search-tag"
+v-for="(text, index) in _{コレクション}_"
+v-bind:key="index"
+@click="
+    _{アクション:search(text)}_;
+"
+>
+{{ text }}
+</button>
+"""
+
+["[vue+TS]マークダウンをhtmlに変換"]
+icon = "unknown"
+description = """
+リポジトリ　https://github.com/markedjs/marked
+
+インストール
+```
+npm install marked
+npm install @types/marked # For TypeScript projects
+```
+#vue
+"""
+code = """
+<script>
+import * as marked from 'marked';
+
+function md2html(mdstr:string) {
+    // markdownの改行はそのまま反映するために、末尾に「  」を追加
+    return marked.marked(mdstr.replace(/\r?\n/g, "  \n"), { sanitize: true });
+}
+</script>
+
+<template>
+<div class="snippet-common-description" >
+    <div v-html="md2html(_{MarkDown文字列}_)" />
+</div>
+</template>
+"""
+
+
+["[TS]foreach (for ... of ...)"]
+icon = "unknown"
+description = """
+Pythonのようなfor in ではなく、for ofを使う。
+for i in 配列　はiに指数が代入されてしまう。
+"""
+code = """
+for (let s of _{配列:str.split("\r\n")}_) {
+    _{処理:console.log(s)}_;
+}
+"""
+
+
+
+

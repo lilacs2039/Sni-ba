@@ -1,0 +1,60 @@
+﻿# snippets for C#
+
+[[tagGroup]]
+name = "操作"
+tags = "移動,コピー,開く,作成,変更,削除,ソート"
+[[tagGroup]]
+name = "その他"
+tags = "Linq,文字列"
+
+
+["Listの中身を文字列に変換(String.Join)"]
+icon = "unknown"
+description = """
+"""
+code = """
+String.Join(", ", _{文字列配列・リスト}_);
+"""
+
+["降順に並び替え（ソート）(Linq)"]
+icon = "unknown"
+description = """
+OrderBy : 	昇順にソート
+OrderByDescending :	降順にソート
+ThenBy :	昇順にソート（第2キー以降）
+ThenByDescending :	降順にソート（第2キー以降）
+
+引用元 https://www.buildinsider.net/web/bookaspmvc5/050303
+"""
+code = """
+var articles = db.Articles
+                .OrderByDescending(a => a.Published)
+                .ThenBy(a => a.Title);
+"""
+
+
+["辞書のForeach(Linq)"]
+icon = "unknown"
+description = """
+DictionaryにForEachは定義されてないが、ToList()でKeyValuePairのリストに変換できる。
+"""
+code = """
+dic.ToList().ForEach(kvp => Console.WriteLine($"{kvp.Key}, {kvp.Value}"));
+"""
+
+["辞書の初期化"]
+icon = "unknown"
+description = """
+引用元　C#のDictionaryとは？定義方法と基本的な使い方【初心者向け】 | Modis株式会社
+https://www.modis.co.jp/candidate/insight/column_136
+"""
+code = """
+//インスタンス化と初期化を同時に実行
+var mydic2 = new Dictionary<string, string>(){
+    {"mykey1","value11"},
+    {"mykey2","value12"},
+    {"mykey3","value13"}
+};
+"""
+
+

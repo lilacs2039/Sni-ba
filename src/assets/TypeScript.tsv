@@ -1,0 +1,9 @@
+﻿title	icon	description	code
+テンプレートリテラル	unknown	文字列リテラルに変数を埋め込む。PythonのF文字列相当の機能。	`_{通常文字列}_ ${_{変数}_}`
+定数定義	unknown	定数定義	const _{変数名}_ = _{値}_
+変数定義	unknown	変数定義	var _{変数名}_ = _{値}_
+Objectのforeach処理(Linq風)	unknown	Object（JSONのような辞書構造）のforeach処理	Object.keys(_{Object}_).forEach(k=>console.log(k,_{Object}_[k]))
+Objectのforeach処理(for文)	unknown	Object（JSONのような辞書構造）のforeach処理	for (const  k in _{Object}_) console.log(k, _{Object}_[k])
+reactiveな配列の定義	unknown	reactiveな配列の定義 #vue	var _{変数名}_ = reactive(new Array<string>());
+reactiveな変数の定義	unknown	reactiveな変数の定義 #vue	const _{変数名}_ = ref(_{初期値 ex. ""}_);
+

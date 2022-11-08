@@ -1,0 +1,53 @@
+﻿# snippets for bat
+
+[[tagGroup]]
+name = "操作"
+tags = "移動,コピー,開く,作成,変更,削除"
+description = ""
+
+[[tagGroup]]
+name = "ファイル"
+tags = "ファイル,フォルダ,ルート,カレント,ディレクトリ,書,読"
+description = ""
+
+[[tagGroup]]
+name = "その他"
+tags = "待つ,検索,文字,変数,サブルーチン,コメント,画面,通信"
+description = ""
+
+["サブルーチン"]
+icon = "code"
+description = """
+サブルーチンのテンプレート
+"""
+code = """
+:_{label}_
+_[サブルーチン処理]_
+exit /b
+"""
+
+
+
+["ファイルが存在すれば削除"]
+icon = "empty-trash"
+description = """
+ファイルが存在するか確認して、存在すれば削除する。
+"""
+code = """
+set DEL_FILE=_{削除するファイル名}_
+if exist %DEL_FILE% ( del %DEL_FILE% )
+"""
+
+
+# ["サブルーチン"]
+# icon = "code"
+# description = """
+# サブルーチンのテンプレート
+# """
+# code = """
+# :_{label}_
+# _[サブルーチン処理]_
+# exit /b
+# """
+
+

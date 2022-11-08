@@ -1,0 +1,42 @@
+﻿# snippets for html/css
+
+[[tagGroup]]
+name = "カテゴリ"
+tags = "html,css,javascript,typescript,vue"
+
+[[tagGroup]]
+name = "操作"
+tags = "移動,コピー,開く,作成,変更,削除"
+
+
+["[html]FlexBox"]
+icon = "list-view"
+description = """
+●　使い方（※クラス名がflex_boxの場合）
+```
+<div class="flex_box">
+    <div>アイテム１</div>
+    <div>アイテム２</div>
+</div>
+```
+"""
+code = """
+._{クラス名}_ {
+    display: flex;
+}
+"""
+
+["[vue]リンク先を動的に指定"]
+icon = "unknown"
+description = """
+:href=　でプロパティを動的に指定できる。
+TSコードは " で囲む。
+`?lang=${...}` はTSのテンプレートリテラルでクエリ文字列の作成。
+"""
+code = """
+<a class="_{クラス名}_" :href="`?lang=${_{JS/TSコード}_}`">_{表示文字列}_</a>
+"""
+
+
+
+

@@ -1,0 +1,24 @@
+﻿# snippets for python
+
+["実行中一時停止してデバッガーを起動"]
+icon = "unknown"
+description = "実行中一時停止してデバッガーを起動"
+code = "from IPython.core.debugger import Pdb; Pdb().set_trace()"
+
+
+["実行エラー時に一時停止してデバッガーを起動するように設定"]
+icon = "unknown"
+description = "実行エラー時に一時停止してデバッガーを起動するように設定 #debug"
+code = "%pdb on"
+
+["実行エラー時に一時停止してデバッガーを起動する設定を解除"]
+icon = "unknown"
+description = "実行中一時停止してデバッガーを起動  #debug"
+code = "%pdb off"
+
+["pandas メソッドチェインで列追加"]
+icon = "unknown"
+description = ""
+code = "df.assign(key_name='value')"
+
+
