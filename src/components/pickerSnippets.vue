@@ -6,26 +6,21 @@ import iconButton from "./iconButton.vue";
 
 const snippetDefinitions = inject(snippetDefinitionsKey);
 const editorContext = inject(editorContextKey);
-
 </script>
 
 <template>
-  <div class="snippets-container">
-    <ul>
+    <ul class="snippets-container">
       <template
         v-for="(item, index) in snippetDefinitions.list"
         v-bind:key="index"
       >
-        <li v-show="item.visible">
+        <li class="snippet-list" v-show="item.visible">
           <div>
             <button
               class="picker-snippet snippet-common"
               @click="editorContext.addSnippet(item)"
             >
-              <img
-                class="snippet-common-icon"
-                :src="`img/${item.icon}.png`"
-              />
+              <img class="snippet-common-icon" :src="`img/${item.icon}.png`" />
 
               <div class="snippet-common-title">{{ item.title }}</div>
               <div class="snippet-common-description">
@@ -37,14 +32,17 @@ const editorContext = inject(editorContextKey);
         </li>
       </template>
     </ul>
-  </div>
 </template>
 
 <style>
+.snippet-list {
+  list-style: none;
+}
 .snippet-common {
   background-color: var(--snippet-bgcolor);
   gap: 3px;
   margin: 5px;
+  width: 99%;
   box-shadow: 0 3px 5px rgba(0, 0, 0, 0.3);
   cursor: pointer;
   border-radius: 10px;
@@ -85,12 +83,12 @@ const editorContext = inject(editorContextKey);
 .snippets-container {
   background-color: var(--panel-bgcolor);
   padding: 5px;
+  margin: 0px;
   overflow: scroll;
 }
 .picker-snippet {
   display: grid;
   /* height: 100vh; */
-  width: 95%;
   grid-template-columns: min-content auto;
   grid-template-rows: max-content max-content auto;
   grid-template-areas:
