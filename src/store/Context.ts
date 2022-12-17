@@ -3,7 +3,7 @@ import rison from "rison";
 
 export const KEY_CONTEXT: string = "context";
 
-export class EditorContext {
+export class Context {
     public snippets = reactive([
         {
             title: "任意コード",
@@ -98,8 +98,8 @@ export class EditorContext {
         });
     }
 
-    public static deserialize(str: string): EditorContext {
-        const ret = new EditorContext();
+    public static deserialize(str: string): Context {
+        const ret = new Context();
         if (str == "") return ret;
         try {
             const obj: any = rison.decode(str);

@@ -5,7 +5,7 @@
 import { provide } from "vue";
 import picker from "./components/picker.vue";
 import editor from "./components/editor.vue";
-import { EditorContext, KEY_CONTEXT } from "./store/EditorContext";
+import { Context as Context, KEY_CONTEXT } from "./store/Context";
 import { langStrKey, editorContextKey, snippetDefinitionsKey } from "./store/keys";
 import { SnippetDefinitions, KEY_LANG } from "./store/SnippetDefinitions";
 import queryString from "query-string";
@@ -22,7 +22,7 @@ const snippetDefinitions = new SnippetDefinitions(langStr);
 provide(snippetDefinitionsKey, snippetDefinitions);
 // コンテキスト
 const contextStr = KEY_CONTEXT in parsed ? (parsed[KEY_CONTEXT] as string) : "";
-provide(editorContextKey, EditorContext.deserialize(contextStr));
+provide(editorContextKey, Context.deserialize(contextStr));
 
 // --------　Firebase　--------
 // Your web app's Firebase configuration
@@ -44,7 +44,7 @@ const analytics = getAnalytics(app);
 
 <template>
   <ul class="nav">
-    <li><a class="home" href="?">Snippet Codes</a></li>
+    <li><a class="home" href="?">Sni-ba</a></li>
 
     <li
       :class="

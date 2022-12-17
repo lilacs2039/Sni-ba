@@ -8,49 +8,48 @@ import { decode } from "rison";
 
 const editorContext = inject(editorContextKey) as EditorContext;
 
-const isPreview = ref(false);
-const previewCode = ref("");
-const previewRows = ref(5);
-function showPreview() {
-  isPreview.value = true;
-  previewCode.value = editorContext.publish();
-}
-function hidePreview() {
-  isPreview.value = false;
+// const isPreview = ref(false);
+// const previewCode = ref("");
+// const previewRows = ref(5);
+// function showPreview() {
+//   isPreview.value = true;
+//   previewCode.value = editorContext.publish();
+// }
+// function hidePreview() {
+//   isPreview.value = false;
+// }
+
+// const isShare = ref(false);
+// const shareLink = ref("");
+// function showShare(){
+//   isShare.value = true;
+//   shareLink.value = decodeURI(window.location.host +'?context='+ editorContext.serialize());
+//   navigator.clipboard.writeText(shareLink.value);
+//   console.log(editorContext.serialize());
+// }
+// function hideShare() {
+//   isShare.value = false;
+// }
+
+// function _download() {
+//   const link:any = document.getElementById("download-link");
+//   link.href = `data:application/octet-stream;charset=UTF-8,${encodeURIComponent(
+//     editorContext.publish()
+//   )}`;
+//   link.download = editorContext.filename.value;
+//   link.click();
+// }
+
+function post(){
+
 }
 
-const isShare = ref(false);
-const shareLink = ref("");
-function showShare(){
-  isShare.value = true;
-  shareLink.value = decodeURI(window.location.host +'?context='+ editorContext.serialize());
-  navigator.clipboard.writeText(shareLink.value);
-  console.log(editorContext.serialize());
-}
-function hideShare() {
-  isShare.value = false;
-}
-
-function _download() {
-  const link:any = document.getElementById("download-link");
-  link.href = `data:application/octet-stream;charset=UTF-8,${encodeURIComponent(
-    editorContext.publish()
-  )}`;
-  link.download = editorContext.filename.value;
-  link.click();
-}
 </script>
 
 <template>
   <div>
     <div class="menu">
-      <input
-        type="text"
-        class="filename"
-        placeholder="ファイル名..."
-        v-model="editorContext.filename.value"
-      />
-      <iconButton
+      <!-- <iconButton
         caption="ダウンロード"
         icon="/img/download.png"
         @click="_download"
@@ -67,6 +66,11 @@ function _download() {
         caption="共有リンク"
         icon="/img/share.png"
         @click="showShare"
+      /> -->
+      <iconButton
+        caption="投稿"
+        icon="/img/upload.png"
+        @click="post"
       />
     </div>
     <editorSnippets />
