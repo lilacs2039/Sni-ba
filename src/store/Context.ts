@@ -9,12 +9,7 @@ export class Context {
             title: "任意コード",
             icon: "code",
             description: "任意のコードを記述",
-            codes: [
-                [  // １行ずつ
-                    // { isVariable: false, code: "rem " },
-                    { isVariable: true, code: "任意のコード" }
-                ]
-            ]
+            code: "任意のコード"
         }]
     );
     public filename = ref("filename.bat");
@@ -28,35 +23,11 @@ export class Context {
         description: string,
         code: string
     }) {
-        // codeを字句解析して、_{ }_ をラベルとテキストボックスに分類
-        const _codes = [];
-        var lines = snippet.code.split("\r\n");
-        for (let s of lines) {
-            var codeline = [];
-            while (s != "") {
-                const lmatch = s.match("_{");
-                const rmatch = s.match("}_");
-                var left = s;
-                var inner = "";
-                var right = "";
-                if (lmatch != null && rmatch != null) {
-                    left = s.slice(0, lmatch.index);
-                    inner = s.slice(lmatch.index as number + 2, rmatch.index);
-                    right = s.slice(rmatch.index as number + 2);
-                    if (right == undefined) right = "";
-                }
-                codeline.push({ isVariable: false, code: left });
-                if (inner != "") codeline.push({ isVariable: true, code: inner });
-
-                s = right;
-            }
-            _codes.push(codeline);
-        }
         this.snippets.push({
             title: snippet.title,
             icon: snippet.icon,
             description: snippet.description,
-            codes: _codes
+            code: snippet.code
         });
     }
 
@@ -83,13 +54,12 @@ export class Context {
         }
     }
 
-    public publish(): string {
-        return this.snippets.map(snippet =>
-            // snippet.codes.map(x => x.code).join("")
-            // snippet.codes.flatMap(line=>line).map(x => x.code).join("")
-            snippet.codes.flatMap(line=>line.map(x => x.code).join("")).join("\r\n")
-        ).join("\r\n");
-    }
+    // public publish(): string {
+    //     return this.snippets.map(snippet =>
+    //         snippet
+    //         // snippet.codes.flatMap(line=>line.map(x => x.code).join("")).join("\r\n")
+    //     ).join("\r\n");
+    // }
 
     public serialize(): string {
         return rison.encode({

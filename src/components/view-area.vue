@@ -3,16 +3,10 @@ import { ref, reactive, inject } from "vue";
 import iconButton from "./iconButton.vue";
 import { Context } from "../store/Context";
 import { editorContextKey } from "../store/keys";
-// import { decode } from "rison";
+// import {marked} from "marked";
 import * as marked from "marked";
 
-console.log("view-area.vue")
 const editorContext = inject(editorContextKey) as Context;
-
-function post(){
-
-}
-
 
 const selectedIndex = ref(0);
 function _select(index: number) {
@@ -43,9 +37,7 @@ function _moveDown(index: number) {
 function md2html(mdstr: string) {
   return marked.marked(mdstr.replace(/\r?\n/g, "  \n"), { sanitize: true });
 }
-
 </script>
-
 
 <template>
   <ul class="snippets-container">
@@ -75,7 +67,7 @@ function md2html(mdstr: string) {
         </div>
 
         <code class="snippet-editor-code">
-          {{snippet?.codes}}
+          {{snippet?.code}}
         </code>
       </div>
     </li>
@@ -83,21 +75,34 @@ function md2html(mdstr: string) {
 </template>
 
 <style>
-.menu {
-  display: flex;
-  gap: 1px;
+.snippet-editor-code {
+  grid-area: code;
+
+  /* align-items: center; */
+  text-align: left;
+  background-color: #ccc;
+  vertical-align: middle;
   margin: 5px;
+  /* padding: 5px; */
 }
-
-.filename {
-  flex-grow: 1;
+.snippet-editor-code-line {
+  display: flex;
+  align-items: center;
 }
-
-
-.share-textarea {
-  /* height: 80%; */
-  background: #fff;
+.snippet {
+  display: grid;
+  grid-template-columns: max-content auto max-content;
+  grid-template-rows: max-content max-content auto;
+  grid-template-areas:
+    "icon title edit"
+    "icon desc edit"
+    "code code code";
 }
-
-
+.edit-snippet {
+  grid-area: edit;
+}
+.code-item {
+  /* margin: 5px; */
+  margin: 0px;
+}
 </style>

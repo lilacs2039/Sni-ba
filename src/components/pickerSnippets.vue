@@ -1,11 +1,11 @@
 <script setup lang="ts">
 import { ref, reactive, inject } from "vue";
-import { EditorContext } from "../store/EditorContext";
+import { Context } from "../store/Context";
 import { editorContextKey, snippetDefinitionsKey } from "../store/keys";
 import iconButton from "./iconButton.vue";
 
 const snippetDefinitions = inject(snippetDefinitionsKey);
-const editorContext = inject(editorContextKey);
+const context = inject(editorContextKey);
 </script>
 
 <template>
@@ -18,7 +18,7 @@ const editorContext = inject(editorContextKey);
           <div>
             <button
               class="picker-snippet snippet-common"
-              @click="editorContext.addSnippet(item)"
+              @click="context.addSnippet(item)"
             >
               <img class="snippet-common-icon" :src="`img/${item.icon}.png`" />
 
