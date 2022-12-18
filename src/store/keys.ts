@@ -1,5 +1,5 @@
 import { InjectionKey } from "vue";
-import { Context } from "./EditorContext";
+import { Context } from "./Context";
 import { SnippetDefinitions } from "./SnippetDefinitions";
 
 export const langStrKey:InjectionKey<string> = Symbol("langStr");

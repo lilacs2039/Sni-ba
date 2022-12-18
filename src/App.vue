@@ -1,12 +1,16 @@
 <script setup lang="ts">
 // This starter template is using Vue 3 <script setup> SFCs
 // Check out https://vuejs.org/api/sfc-script-setup.html#script-setup
-// import HelloWorld from "./components/HelloWorld.vue";
+// import HelloWorld from "/src/components/HelloWorld.vue";
 import { provide } from "vue";
-import picker from "./components/picker.vue";
-import editor from "./components/editor.vue";
+import picker from "/src/components/picker.vue";
+import workarea from "/src/components/workarea.vue";
 import { Context as Context, KEY_CONTEXT } from "./store/Context";
-import { langStrKey, editorContextKey, snippetDefinitionsKey } from "./store/keys";
+import {
+  langStrKey,
+  editorContextKey,
+  snippetDefinitionsKey,
+} from "./store/keys";
 import { SnippetDefinitions, KEY_LANG } from "./store/SnippetDefinitions";
 import queryString from "query-string";
 import { parse } from "@babel/parser";
@@ -66,7 +70,7 @@ const analytics = getAnalytics(app);
 
   <div class="page">
     <div class="picker"><picker /></div>
-    <div class="editor"><editor /></div>
+    <div class="workarea"><workarea /></div>
   </div>
 </template>
 
@@ -110,7 +114,7 @@ const analytics = getAnalytics(app);
   grid-template-rows: max-content auto;
   grid-template-areas:
     "header header"
-    "picker editor";
+    "picker workarea";
 
   /* background-color: black; */
   gap: 5px;
@@ -125,8 +129,8 @@ const analytics = getAnalytics(app);
   height: 100%;
   /* background-color: #eee; */
 }
-.editor {
-  grid-area: editor;
+.workarea {
+  grid-area: workarea;
   background-color: #eee;
 }
 </style>
