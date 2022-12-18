@@ -11,7 +11,7 @@ const context = inject(editorContextKey);
 <template>
     <ul class="snippets-container">
       <template
-        v-for="(item, index) in snippetDefinitions.list"
+        v-for="(item, index) in Object.values(snippetDefinitions.dic)"
         v-bind:key="index"
       >
         <li class="snippet-list" v-show="item.visible">

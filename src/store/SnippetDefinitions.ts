@@ -7,20 +7,16 @@ import toml from "toml";
 
 export const KEY_LANG: string = "lang";
 
-// class TagGroup {
-//     name: string = "group name";
-//     tags: Array<string> = "移動,コピー,開く,作成,変更,削除".split(",");
-// }
 export class SnippetDefinitions {
-    public list = reactive([
-        {
-            title: "任意コード",
-            icon: "code",
-            description: "任意のコードを記述",
-            code: "_{任意のコード}_",
-            visible: true,
-        },
-    ]);
+    public dic: {
+        [key: string]: {
+            title: string,
+            icon: string,
+            description: string,
+            code: string,
+            visible: boolean
+        }
+    } = reactive({});
     public tags = reactive(Array<any>());
 
     constructor(langStr: string) {
@@ -36,13 +32,13 @@ export class SnippetDefinitions {
                 const tmp = lines.slice(1).map((line) => {
                     const fields = line.split("\t");
                     return Object.fromEntries(header.map((h, i) => [h, fields[i]]));
-                }).forEach((x) => this.list.push({
+                }).forEach((x) => this.dic[x.title] = {
                     title: x.title,
                     icon: x.icon,
                     description: x.description,
                     code: x.code,
                     visible: true,
-                }));
+                })
             });
 
         // tomlの読み込み　（タグ、スニペット）
@@ -58,16 +54,16 @@ export class SnippetDefinitions {
                             tags: v.tags.split(",")
                         }));
 
-                    Object.keys(data).forEach(k=>{
-                        if (k=="tagGroup") return;
+                    Object.keys(data).forEach(k => {
+                        if (k == "tagGroup") return;
                         const x = data[k];
-                        this.list.push({
+                        this.dic[k] = {
                             title: k,
                             icon: x.icon,
                             description: x.description,
                             code: x.code,
                             visible: true,
-                        });
+                        };
                     })
                 } catch (e) { console.error(`Parse error on ${tomlPath}. ${e}`); }
 
@@ -78,7 +74,7 @@ export class SnippetDefinitions {
     public search(searchStr: string) {
         const words = searchStr.split(/\s/g).filter((w) => w != ""); //任意の空白文字で、複数ワード指定。
         console.log(words);
-        this.list.forEach((snippet) => {
+        Object.values(this.dic).forEach(snippet => {
             // visible=trueの条件
             // ・スニペットのタイトル・説明・コードのいずれかにキーワードが含まれること
             // ・キーワードすべてが含まれること。
@@ -87,6 +83,6 @@ export class SnippetDefinitions {
         });
     }
     public clear() {
-        this.list.forEach((snippet) => (snippet.visible = true));
+        Object.values(this.dic).forEach((snippet) => (snippet.visible = true));
     }
 }
