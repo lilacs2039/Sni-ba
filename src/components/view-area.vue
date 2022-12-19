@@ -41,7 +41,11 @@ function md2html(mdstr: string) {
 
 <template>
   <ul class="snippets-container">
-    <li v-for="(snippet, index) in editorContext.snippets" v-bind:key="index"  class="snippet-list">
+    <li
+      v-for="(snippet, index) in editorContext.snippets"
+      v-bind:key="index"
+      class="snippet-list"
+    >
       <div class="snippet snippet-common" @click="_select(index)">
         <img class="snippet-common-icon" :src="`/img/${snippet?.icon}.png`" />
         <div class="snippet-common-title">{{ snippet?.title }}</div>
@@ -67,7 +71,7 @@ function md2html(mdstr: string) {
         </div>
 
         <code class="snippet-editor-code">
-          {{snippet?.code}}
+          <pre>{{ snippet?.code }}</pre>
         </code>
       </div>
     </li>
