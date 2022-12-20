@@ -11,11 +11,14 @@ import * as marked from "marked";
 
 const editorContext = inject(editorContextKey) as Context;
 
-var titleStr = ref("temp title");
-var descStr = ref("");
-var iconStr = ref("");
-var codeStr = ref("");
-var codelangStr = ref("");
+var post_snippets = reactive([
+  {
+    title: "",
+    icon: "",
+    description: "",
+    code: "",
+  },
+]);
 
 function md2html(mdstr: string) {
   return marked.marked(mdstr.replace(/\r?\n/g, "  \n"), { sanitize: true });
@@ -23,53 +26,58 @@ function md2html(mdstr: string) {
 
 function post() {
   // toml文字列をクリップボードへコピー
-
-  var ret = json2toml({ title: titleStr.value });
+  var ret = json2toml({ snippets: post_snippets });
   console.log(ret);
   // GitHubのページへジャンプ
+
+  
 }
 </script>
 
 <template>
-  <div class="post-items">
-    <div class="post-key">title</div>
-    <input
-      type="text"
-      class="post-input post-value"
-      placeholder="タイトル..."
-      v-model="titleStr"
-    />
+  <div>
+    <div v-for="(snippet, i) in post_snippets" v-bind:key="i">
+      <div class="post-items">
+        <div class="post-key">title</div>
+        <input
+          type="text"
+          class="post-input post-value"
+          placeholder="タイトル..."
+          v-model="snippet.title"
+        />
 
-    <div class="post-key">description</div>
-    <textarea
-      rows="5"
-      class="post-input"
-      placeholder="説明..."
-      v-model="descStr"
-    ></textarea>
+        <div class="post-key">description</div>
+        <textarea
+          rows="5"
+          class="post-input"
+          placeholder="説明..."
+          v-model="snippet.description"
+        ></textarea>
 
-    <div class="post-key">icon</div>
-    <input
-      type="text"
-      class="post-input"
-      placeholder="アイコン..."
-      v-model="iconStr"
-    />
+        <div class="post-key">icon</div>
+        <input
+          type="text"
+          class="post-input"
+          placeholder="アイコン..."
+          v-model="snippet.icon"
+        />
 
-    <div class="post-key">code</div>
-    <textarea
-      rows="5"
-      class="post-input"
-      placeholder="コード..."
-      v-model="codeStr"
-    ></textarea>
+        <div class="post-key">code</div>
+        <textarea
+          rows="5"
+          class="post-input"
+          placeholder="コード..."
+          v-model="snippet.code"
+        ></textarea>
+      </div>
 
-    <input
-      type="submit"
-      value="投稿..."
-      class="post-button-submit"
-      @click="post"
-    />
+      <input
+        type="submit"
+        value="投稿..."
+        class="post-button-submit"
+        @click="post"
+      />
+    </div>
   </div>
 </template>
 
