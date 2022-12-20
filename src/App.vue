@@ -76,10 +76,14 @@ const analytics = getAnalytics(app);
 
 <style>
 :root {
-  --panel-bgcolor: #eee;
+  /* --panel-bgcolor: #eee; */
   --snippet-bgcolor: #ddd;
 }
-
+body {
+  background-color: #ccc;
+  margin: 0;
+  padding: 0;
+}
 .nav {
   list-style: none;
   display: flex;
@@ -88,6 +92,7 @@ const analytics = getAnalytics(app);
   margin-right: 2px;
   font-weight: bold;
   text-align: center;
+  /* background-color: #fff; */
 }
 .home {
   padding: 20px;
@@ -116,9 +121,11 @@ const analytics = getAnalytics(app);
     "header header"
     "picker workarea";
 
-  /* background-color: black; */
-  gap: 5px;
-  margin: 10px;
+  /* background-color: #333333; */
+  gap: 50px;
+  /* 横幅　上限付き自動調整 */
+  max-width: 1800px;
+  margin: auto;
 }
 .header {
   grid-area: header;
@@ -131,6 +138,6 @@ const analytics = getAnalytics(app);
 }
 .workarea {
   grid-area: workarea;
-  background-color: #eee;
+  /* background-color: #eee; */
 }
 </style>

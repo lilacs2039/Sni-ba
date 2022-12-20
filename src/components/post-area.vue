@@ -21,64 +21,55 @@ function md2html(mdstr: string) {
   return marked.marked(mdstr.replace(/\r?\n/g, "  \n"), { sanitize: true });
 }
 
-function post(){
+function post() {
   // toml文字列をクリップボードへコピー
 
-  var ret = json2toml({title:titleStr.value})
+  var ret = json2toml({ title: titleStr.value });
   console.log(ret);
   // GitHubのページへジャンプ
-
 }
 </script>
 
 <template>
-  <div>
-    <div class="post-item">
-      <div>title</div>
-      <input
-        type="text"
-        class="post-input"
-        placeholder="タイトル..."
-        v-model="titleStr"
-      />
-    </div>
-    <div class="post-item">
-      <div>description</div>
-      <input
-        type="text"
-        class="post-input"
-        placeholder="説明..."
-        v-model="descStr"
-      />
-    </div>
-    <div class="post-item">
-      <div>icon</div>
-      <input
-        type="text"
-        class="post-input"
-        placeholder="アイコン..."
-        v-model="iconStr"
-      />
-    </div>
-    <div class="post-item">
-      <div>code</div>
-      <input
-        type="text"
-        class="post-input"
-        placeholder="コード..."
-        v-model="codeStr"
-      />
-    </div>
-    <div class="post-item">
-      <div>code-lang</div>
-      <input
-        type="text"
-        class="post-input"
-        placeholder="言語..."
-        v-model="codelangStr"
-      />
-    </div>
-    <input type="submit" value="投稿..." class="post-button-submit" @click="post">
+  <div class="post-items">
+    <div class="post-key">title</div>
+    <input
+      type="text"
+      class="post-input post-value"
+      placeholder="タイトル..."
+      v-model="titleStr"
+    />
+
+    <div class="post-key">description</div>
+    <textarea
+      rows="5"
+      class="post-input"
+      placeholder="説明..."
+      v-model="descStr"
+    ></textarea>
+
+    <div class="post-key">icon</div>
+    <input
+      type="text"
+      class="post-input"
+      placeholder="アイコン..."
+      v-model="iconStr"
+    />
+
+    <div class="post-key">code</div>
+    <textarea
+      rows="5"
+      class="post-input"
+      placeholder="コード..."
+      v-model="codeStr"
+    ></textarea>
+
+    <input
+      type="submit"
+      value="投稿..."
+      class="post-button-submit"
+      @click="post"
+    />
   </div>
 </template>
 
@@ -86,7 +77,25 @@ function post(){
 .post-item {
   display: flex;
 }
+
+.post-items {
+  display: grid;
+  grid-template-columns: 8em auto;
+  margin: 10px;
+  grid-column-gap: 5px;
+}
+.post-key {
+  /* grid-row: 1; */
+  grid-column: 1;
+  font-weight: bold;
+}
+.post-value {
+  /* grid-row: 1;  */
+  grid-column: 2;
+}
 .post-input {
+  /* height: 1.5em; */
+  font-size: 1em;
 }
 
 .post-button-submit {

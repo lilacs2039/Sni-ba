@@ -81,10 +81,9 @@ const context = inject(editorContextKey);
 }
 
 .snippets-container {
-  background-color: var(--panel-bgcolor);
+  /* background-color: var(--panel-bgcolor); */
   padding: 5px;
   margin: 0px;
-  overflow: scroll;
 }
 .picker-snippet {
   display: grid;

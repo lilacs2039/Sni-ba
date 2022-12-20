@@ -77,7 +77,7 @@ function _findGoogle() {
   grid-template-areas:
     "input buttons"
     "tags tags";
-  background-color: var(--panel-bgcolor);
+  /* background-color: var(--panel-bgcolor); */
   gap: 1px;
   padding: 5px;
   /* margin: 5px; */
