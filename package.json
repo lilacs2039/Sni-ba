@@ -12,6 +12,7 @@
     "@types/query-string": "^6.3.0",
     "@types/rison": "^0.0.7",
     "firebase": "^9.12.1",
+    "json2toml": "^4.0.1",
     "marked": "^4.2.2",
     "path": "^0.12.7",
     "query-string": "^7.1.1",
