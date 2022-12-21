@@ -5,11 +5,13 @@ import json2toml from "json2toml";
 // import json2toml from "/node_modules/json2toml/index.js";
 import iconButton from "./iconButton.vue";
 import { Context } from "../store/Context";
-import { editorContextKey } from "../store/keys";
+import { editorContextKey, langStrKey } from "../store/keys";
 // import {marked} from "marked";
 import * as marked from "marked";
 
 const editorContext = inject(editorContextKey) as Context;
+const langStr = inject(langStrKey);
+const user = "lilacs2039"
 
 var post_snippets = reactive([
   {
@@ -28,9 +30,14 @@ function post() {
   // toml文字列をクリップボードへコピー
   var ret = json2toml({ snippets: post_snippets });
   console.log(ret);
-  // GitHubのページへジャンプ
 
-  
+  if (navigator.clipboard) {
+    navigator.clipboard.writeText(ret); //.then(()=>...
+  } else alert("クリップボードへコピーできませんでした。");
+
+  // GitHubのページへジャンプ
+  window.open(`https://github.com/${user}/Sni-ba-snippets/edit/main/${langStr}.toml`, '_blank', 'noreferrer');
+
 }
 </script>
 

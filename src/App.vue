@@ -115,7 +115,7 @@ body {
 .page {
   display: grid;
   height: 100vh;
-  grid-template-columns: 1fr 2fr;
+  grid-template-columns: 1fr 1fr;
   grid-template-rows: max-content auto;
   grid-template-areas:
     "header header"
