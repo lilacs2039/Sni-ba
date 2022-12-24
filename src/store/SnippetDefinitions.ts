@@ -1,11 +1,17 @@
-import { ref, reactive } from "vue";
+import { ref, reactive, inject } from "vue";
 // import snippetsDefinitionUrl from "../assets/snippets.tsv?url";
 import batUrl from "../assets/bat.tsv?url";
 import tagsContent from "../assets/tags.txt?raw";
 import { stringify } from "query-string";
 import toml from "toml";
+import {
+    langStrKey,
+    // editorContextKey,
+    // snippetDefinitionsKey,
+} from "../store/keys";
 
 export const KEY_LANG: string = "lang";
+const langStr = inject(langStrKey) as string;
 
 export class SnippetDefinitions {
     public dic: {
@@ -48,7 +54,7 @@ export class SnippetDefinitions {
         //     });
 
         // tomlの読み込み　（タグ、スニペット）
-        const filename = "bat.toml";
+        // const filename = "bat.toml";
 
         // GitHubからtomlのリスト取得
         const user = "lilacs2039";
@@ -56,14 +62,15 @@ export class SnippetDefinitions {
         //     { method: "GET", headers: { "Accept": "application/vnd.github.v3+json" } })
         //     .then(d => d.json())
         //     .then(j => console.log(j.map(e => e.name).filter((e:string)=>e.endsWith(".toml")) ));
-            
-        const tomlPath = `https://raw.githubusercontent.com/${user}/Sni-ba-snippets/main/${filename}`;
+
+        const tomlPath = `https://raw.githubusercontent.com/${user}/Sni-ba-snippets/main/${langStr}.toml`;
         fetch(tomlPath)
             .then(response => response.text())
             .then(input => {
                 try {
                     const data = toml.parse(input);
-                    data.tagGroup.forEach((v: any) => this.addTags(v.name, v.tags.split(",")));
+                    if (data.tagGroup != undefined)
+                        data.tagGroup.forEach((v: any) => this.addTags(v.name, v.tags.split(",")));
                     // this.tags.push({
                     //     name: v.name,
                     //     tags: v.tags.split(",")
