@@ -69,24 +69,30 @@ export class SnippetDefinitions {
             .then(input => {
                 try {
                     const data = toml.parse(input);
+                    console.log(data)
+
                     if (data.tagGroup != undefined)
-                        data.tagGroup.forEach((v: any) => this.addTags(v.name, v.tags.split(",")));
+                        data.tagGroup.forEach((v: any) => {
+                            if (v.name == undefined) { console.warn(`Warning : tagGroup do not have attribute 'name'.`); return; }
+                            if (v.tags == undefined) { console.warn(`Warning : tagGroup '${v.name}' do not have attribute 'tags'.`); return; }
+                            this.addTags(v.name, v.tags.split(","))
+                        });
+                    
                     // this.tags.push({
                     //     name: v.name,
                     //     tags: v.tags.split(",")
                     // }));
 
-                    Object.keys(data).forEach(k => {
-                        if (k == "tagGroup") return;
-                        const x = data[k];
-                        this.dic[k] = {
-                            title: k,
-                            icon: x.icon,
-                            description: x.description,
-                            code: x.code,
-                            visible: true,
-                        };
-                    })
+                    if (data.snippets != undefined)
+                        data.snippets.forEach(x => {
+                            this.dic[x.title] = {
+                                title: x.title,
+                                icon: x.icon,
+                                description: x.description,
+                                code: x.code,
+                                visible: true,
+                            };
+                        })
                 } catch (e) { console.error(`Parse error on ${tomlPath}. ${e}`); }
 
             });

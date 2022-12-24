@@ -10,7 +10,12 @@ import iconButton from "./iconButton.vue";
 
 const langStr = inject(langStrKey) as string;
 
-const langs = reactive([]);
+var langs: [
+  {
+    name: string;
+    icon: string;
+  }
+] = reactive([]);
 
 // GitHubからtomlのリスト取得
 const user = "lilacs2039";
@@ -31,10 +36,9 @@ fetch(`https://api.github.com/repos/${user}/Sni-ba-snippets/contents`, {
         icon: `https://raw.githubusercontent.com/${user}/Sni-ba-snippets/main/${name}.png`,
       });
     });
-
-    // console.log(
-    //   j.map((e) => e.name).filter((e: string) => e.endsWith(".toml"))
-    // );
+    langs.sort((a, b) =>
+        a.name.toLowerCase() < b.name.toLowerCase() ? -1 : 1
+      )
   });
 </script>
 
