@@ -52,10 +52,10 @@ export class SnippetDefinitions {
 
         // GitHubからtomlのリスト取得
         const user = "lilacs2039";
-        fetch(`https://api.github.com/repos/${user}/Sni-ba-snippets/contents`, 
-            { method: "GET", headers: { "Accept": "application/vnd.github.v3+json" } })
-            .then(d => d.json())
-            .then(j => console.log(j.map(e => e.name).filter((e:string)=>e.endsWith(".toml")) ));
+        // fetch(`https://api.github.com/repos/${user}/Sni-ba-snippets/contents`, 
+        //     { method: "GET", headers: { "Accept": "application/vnd.github.v3+json" } })
+        //     .then(d => d.json())
+        //     .then(j => console.log(j.map(e => e.name).filter((e:string)=>e.endsWith(".toml")) ));
             
         const tomlPath = `https://raw.githubusercontent.com/${user}/Sni-ba-snippets/main/${filename}`;
         fetch(tomlPath)

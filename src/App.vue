@@ -3,6 +3,7 @@
 // Check out https://vuejs.org/api/sfc-script-setup.html#script-setup
 // import HelloWorld from "/src/components/HelloWorld.vue";
 import { provide } from "vue";
+import navbar from "/src/components/navbar.vue";
 import picker from "/src/components/picker.vue";
 import workarea from "/src/components/workarea.vue";
 import { Context as Context, KEY_CONTEXT } from "./store/Context";
@@ -16,6 +17,8 @@ import queryString from "query-string";
 import { parse } from "@babel/parser";
 import { initializeApp } from "firebase/app";
 import { getAnalytics } from "firebase/analytics";
+
+
 
 // ---------  クエリストリングから復元  ---------
 const parsed = queryString.parse(location.search);
@@ -47,26 +50,7 @@ const analytics = getAnalytics(app);
 </script>
 
 <template>
-  <ul class="nav">
-    <li><a class="home" href="?">Sni-ba</a></li>
-
-    <li
-      :class="
-        lang.replace(/[^0-9a-z]/gi, '') == langStr
-          ? 'nav-item-active'
-          : 'nav-item'
-      "
-      v-for="(lang, i) in '📄bat,🐍Python,TypeScript,🌐Web'.split(',')"
-      v-bind:key="i"
-    >
-      <!-- クエリ文字列は半角英数だけ残す -->
-      <a
-        class="nav-item-link"
-        :href="`?lang=${lang.replace(/[^0-9a-z]/gi, '')}`"
-        >{{ lang }}</a
-      >
-    </li>
-  </ul>
+  <navbar />
 
   <div class="page">
     <div class="picker"><picker /></div>
@@ -83,33 +67,6 @@ body {
   background-color: #ccc;
   margin: 0;
   padding: 0;
-}
-.nav {
-  list-style: none;
-  display: flex;
-  height: 50px;
-  line-height: 50px;
-  margin-right: 2px;
-  font-weight: bold;
-  text-align: center;
-  /* background-color: #fff; */
-}
-.home {
-  padding: 20px;
-  font-size: x-large;
-  color: black;
-}
-.nav-item {
-  background-color: #333;
-}
-.nav-item-active {
-  background-color: #777;
-}
-
-.nav-item-link {
-  text-decoration: none;
-  color: #fff;
-  padding: 20px;
 }
 
 .page {
