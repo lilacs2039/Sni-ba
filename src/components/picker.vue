@@ -43,7 +43,7 @@ function _findGoogle() {
 
     <div class="search-tags">
 
-      <div class="search-tag-group" v-for="(tagGroup, i) in snippetDefinitions.tags" v-bind:key="i">
+      <div class="search-tag-group" v-for="(tagGroup, i) in snippetDefinitions.tagGroups" v-bind:key="i">
         <span class="search-tag">{{ tagGroup.name }}：</span>
         <span v-for="(tagtext, index) in tagGroup.tags" v-bind:key="index">
           <button
