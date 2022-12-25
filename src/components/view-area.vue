@@ -47,7 +47,7 @@ function md2html(mdstr: string) {
       class="snippet-list"
     >
       <div class="snippet snippet-common" @click="_select(index)">
-        <img class="snippet-common-icon" :src="`/img/${snippet?.icon}.png`" />
+        <img class="snippet-common-icon" :src="`${snippet?.thumbnail}`" />
         <div class="snippet-common-title">{{ snippet?.title }}</div>
         <div class="edit-snippet" v-if="index == selectedIndex">
           <iconButton

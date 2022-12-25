@@ -61,13 +61,21 @@ const analytics = getAnalytics(app);
 <style>
 :root {
   /* --panel-bgcolor: #eee; */
-  --snippet-bgcolor: #ddd;
+  --snippet-bgcolor: #eee;
 }
 body {
-  background-color: #ccc;
+  background-color: #eee;
   margin: 0;
   padding: 0;
 }
+
+code{
+  text-align: left;
+  background-color: #ddd;
+  margin: 5px 20px;
+  padding: 0 10px;
+}
+
 
 .page {
   display: grid;

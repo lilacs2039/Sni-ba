@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, reactive, inject } from "vue";
+import { ref, reactive, inject, watchEffect } from "vue";
 import json2toml from "json2toml";
 // import json2toml from "/@types/json2toml.d.ts";
 // import json2toml from "/node_modules/json2toml/index.js";
@@ -11,13 +11,14 @@ import * as marked from "marked";
 
 const editorContext = inject(editorContextKey) as Context;
 const langStr = inject(langStrKey);
-const user = "lilacs2039"
+const user = "lilacs2039";
 
 var post_snippets = reactive([
   {
     title: "",
-    icon: "",
+    thumbnail: "",
     description: "",
+    url: "",
     code: "",
   },
 ]);
@@ -26,19 +27,73 @@ function md2html(mdstr: string) {
   return marked.marked(mdstr.replace(/\r?\n/g, "  \n"), { sanitize: true });
 }
 
-function post() {
-  // toml文字列をクリップボードへコピー
-  var ret = json2toml({ snippets: post_snippets });
-  console.log(ret);
+function getToml() {
+  return json2toml({ snippets: post_snippets });
+}
 
+function post() {
+  var ret = getToml();
+
+  // toml文字列をクリップボードへコピー
   if (navigator.clipboard) {
     navigator.clipboard.writeText(ret); //.then(()=>...
   } else alert("クリップボードへコピーできませんでした。");
 
   // GitHubのページへジャンプ
-  window.open(`https://github.com/${user}/Sni-ba-snippets/edit/main/${langStr}.toml`, '_blank', 'noreferrer');
-
+  window.open(
+    `https://github.com/${user}/Sni-ba-snippets/edit/main/${langStr}.toml`,
+    "_blank",
+    "noreferrer"
+  );
 }
+
+const post_thumb_dict: {
+  [title: string]: [url: string];
+} = reactive({});
+var post_thumb_mes = ref("");
+var post_snippet_toml = ref("");
+
+function paste_thumbnail(snippet) {
+  post_thumb_mes.value = "";
+
+  navigator.clipboard
+    .read()
+    .then((clipItems: ClipboardItems) => {
+      const clipItem = clipItems[0];
+      const type = clipItem.types.filter((s) => s.startsWith("image/"))[0]; // ex. "image/png"
+      if (type == undefined) {
+        post_thumb_mes.value = "Image not found in clipboard.";
+        post_thumb_dict[snippet.title] = "";
+        return;
+      }
+
+      clipItem.getType(type).then((blob: Blob) => {
+        var url = URL.createObjectURL(blob);
+        post_thumb_dict[snippet.title] = url;
+        post_thumb_mes.value = `Type : ${type},  Size : ${Math.round(
+          blob.size / 1000
+        )}kB`;
+
+        function blobToBase64(blob: Blob) {
+          return new Promise((resolve, _) => {
+            const reader = new FileReader();
+            reader.onloadend = () => resolve(reader.result);
+            reader.readAsDataURL(blob);
+          });
+        }
+        blobToBase64(blob).then((b64) => (snippet.thumbnail = b64));
+      });
+    })
+    .catch((e) => {
+      if (e instanceof DOMException) post_thumb_mes.value = e.message;
+      else console.log(e);
+    });
+}
+
+watchEffect(() => {
+  post_thumb_dict;
+  post_snippet_toml.value = getToml();
+});
 </script>
 
 <template>
@@ -61,13 +116,23 @@ function post() {
           v-model="snippet.description"
         ></textarea>
 
-        <div class="post-key">icon</div>
+        <div class="post-key">url</div>
         <input
           type="text"
           class="post-input"
-          placeholder="アイコン..."
-          v-model="snippet.icon"
+          placeholder="参考URL..."
+          v-model="snippet.url"
         />
+
+        <div class="post-key">thumbnail</div>
+        <button class="post-input" @click="paste_thumbnail(snippet)">
+          Paste Image from clipboard
+        </button>
+        <div class="post-key"><!-- placeholder --></div>
+        <div class="post-input">
+          <div>{{ post_thumb_mes }}</div>
+          <img :src="post_thumb_dict[snippet.title]" />
+        </div>
 
         <div class="post-key">code</div>
         <textarea
@@ -77,6 +142,13 @@ function post() {
           v-model="snippet.code"
         ></textarea>
       </div>
+    </div>
+
+    <div class="post-confirm">
+      <div>投稿TOML</div>
+      <code wrap="off">
+        <pre>{{ getToml() }}</pre>
+      </code>
 
       <input
         type="submit"
@@ -97,7 +169,8 @@ function post() {
   display: grid;
   grid-template-columns: 8em auto;
   margin: 10px;
-  grid-column-gap: 5px;
+  /* grid-column-gap: 5px; */
+  gap: 4px;
 }
 .post-key {
   /* grid-row: 1; */
@@ -131,5 +204,11 @@ function post() {
   box-shadow: none; /* カーソル時の影消去 */
   color: #4da6ff; /* 背景色     */
   background: #ffffff; /* 文字色     */
+}
+
+.post-confirm {
+  display: flex;
+  flex-flow: column;
+  gap: 10px;
 }
 </style>

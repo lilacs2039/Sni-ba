@@ -20,13 +20,13 @@ const context = inject(editorContextKey);
               class="picker-snippet snippet-common"
               @click="context.addSnippet(item)"
             >
-              <img class="snippet-common-icon" :src="`img/${item.icon}.png`" />
+              <img class="snippet-common-icon" :src="`${item.thumbnail}`" />
 
               <div class="snippet-common-title">{{ item.title }}</div>
               <div class="snippet-common-description">
                 {{ item.description }}
               </div>
-              <code class="snippet-common-code">{{ item.code }}</code>
+              <code class="snippet-common-code"><pre>{{ item.code }}</pre></code>
             </button>
           </div>
         </li>
@@ -65,14 +65,10 @@ const context = inject(editorContextKey);
 }
 .snippet-common-code {
   grid-area: code;
-
+  
   display: flex;
   align-items: center;
-  text-align: left;
-  background-color: #ccc;
   vertical-align: middle;
-  margin: 5px;
-  padding: 5px;
 }
 .snippet-common-description {
   grid-area: desc;

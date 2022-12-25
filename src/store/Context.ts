@@ -7,7 +7,7 @@ export class Context {
     public snippets = reactive([
         {
             title: "任意コード",
-            icon: "code",
+            thumbnail: "code",
             description: "任意のコードを記述",
             code: "任意のコード"
         }]
@@ -19,13 +19,13 @@ export class Context {
     /** 編集中ドキュメントに、スニペットアイテムを追加  */
     public addSnippet(snippet: {
         title: string,
-        icon: string,
+        thumbnail: string,
         description: string,
         code: string
     }) {
         this.snippets.push({
             title: snippet.title,
-            icon: snippet.icon,
+            thumbnail: snippet.thumbnail,
             description: snippet.description,
             code: snippet.code
         });

@@ -17,7 +17,7 @@ export class SnippetDefinitions {
     public dic: {
         [key: string]: {
             title: string,
-            icon: string,
+            thumbnail: string,
             description: string,
             code: string,
             visible: boolean
@@ -29,7 +29,6 @@ export class SnippetDefinitions {
             tags: Set<string>,
         }
     ] = reactive([]);
-
 
     constructor(langStr: string) {
         const assetsUrl = batUrl.replace("/bat.tsv", "");
@@ -63,6 +62,23 @@ export class SnippetDefinitions {
         //     .then(d => d.json())
         //     .then(j => console.log(j.map(e => e.name).filter((e:string)=>e.endsWith(".toml")) ));
 
+        function toBlob(b64: string, type: string): Blob {
+            if(b64 == undefined ) return new Blob();
+            // var bin = Buffer.from(b64.replace(/^.*,/, ''), 'base64');
+            var bin = atob(b64.replace(/^.*,/, ''));
+            var buffer = new Uint8Array(bin.length);
+            for (var i = 0; i < bin.length; i++) {
+                buffer[i] = bin.charCodeAt(i);
+            }
+            // Blobを作成
+            try {
+                var blob = new Blob([buffer.buffer], {
+                    type: type
+                });
+            } catch (e) { return new Blob(); }
+            return blob;
+        }
+
         const tomlPath = `https://raw.githubusercontent.com/${user}/Sni-ba-snippets/main/${langStr}.toml`;
         fetch(tomlPath)
             .then(response => response.text())
@@ -77,17 +93,13 @@ export class SnippetDefinitions {
                             if (v.tags == undefined) { console.warn(`Warning : tagGroup '${v.name}' do not have attribute 'tags'.`); return; }
                             this.addTags(v.name, v.tags.split(","))
                         });
-                    
-                    // this.tags.push({
-                    //     name: v.name,
-                    //     tags: v.tags.split(",")
-                    // }));
 
                     if (data.snippets != undefined)
                         data.snippets.forEach(x => {
                             this.dic[x.title] = {
                                 title: x.title,
-                                icon: x.icon,
+                                // icon: x.icon,
+                                thumbnail: URL.createObjectURL(toBlob(x.thumbnail, 'image/png')),
                                 description: x.description,
                                 code: x.code,
                                 visible: true,
