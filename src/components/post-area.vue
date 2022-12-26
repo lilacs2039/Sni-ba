@@ -4,6 +4,7 @@ import json2toml from "json2toml";
 // import json2toml from "/@types/json2toml.d.ts";
 // import json2toml from "/node_modules/json2toml/index.js";
 import iconButton from "./iconButton.vue";
+import iconTextButton from "./iconTextButton.vue";
 import { Context } from "../store/Context";
 import { editorContextKey, langStrKey } from "../store/keys";
 // import {marked} from "marked";
@@ -156,14 +157,8 @@ watchEffect(() => {
       </code>
 
       <div class="post-buttons">
-        <button class="post-button-submit shadow" @click="copy">
-          <img class="post-button-icon" src="/img/clipboard.png" />
-          Copy toml
-        </button>
-        <button class="post-button-submit shadow" @click="post">
-          <img class="post-button-icon" src="/img/windowlink.png" />
-          Jump to Github...
-        </button>
+        <icon-text-button icon="/img/clipboard.png" text="Copy toml" />
+        <icon-text-button icon="/img/windowlink.png" text="Jump to Github..." />
       </div>
       <div v-show="copy_mes!=''">{{ copy_mes }}</div>
     </div>
