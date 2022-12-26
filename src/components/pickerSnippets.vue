@@ -17,7 +17,7 @@ const context = inject(editorContextKey);
         <li class="snippet-list" v-show="item.visible">
           <div>
             <button
-              class="picker-snippet snippet-common"
+              class="picker-snippet snippet-common shadow"
               @click="context.addSnippet(item)"
             >
               <img class="snippet-common-icon" :src="`${item.thumbnail}`" />
@@ -43,7 +43,7 @@ const context = inject(editorContextKey);
   gap: 3px;
   margin: 5px;
   width: 99%;
-  box-shadow: 0 3px 5px rgba(0, 0, 0, 0.3);
+  /* box-shadow: 0 3px 5px rgba(0, 0, 0, 0.3); */
   cursor: pointer;
   border-radius: 10px;
 }

@@ -75,7 +75,13 @@ code{
   margin: 5px 20px;
   padding: 0 10px;
 }
+button{
+  cursor: pointer;
+}
 
+.shadow{
+  box-shadow: 0 3px 5px rgba(0, 0, 0, 0.3);
+}
 
 .page {
   display: grid;

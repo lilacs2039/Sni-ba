@@ -125,7 +125,7 @@ watchEffect(() => {
         />
 
         <div class="post-key">thumbnail</div>
-        <button class="post-input" @click="paste_thumbnail(snippet)">
+        <button class="post-input shadow" @click="paste_thumbnail(snippet)">
           Paste Image from clipboard
         </button>
         <div class="post-key"><!-- placeholder --></div>
@@ -150,12 +150,13 @@ watchEffect(() => {
         <pre>{{ getToml() }}</pre>
       </code>
 
-      <input
-        type="submit"
-        value="投稿..."
-        class="post-button-submit"
+      <div class="post-buttons">
+
+        <button 
+        class="post-button-submit shadow"
         @click="post"
-      />
+        >投稿...</button>
+      </div>
     </div>
   </div>
 </template>
@@ -186,6 +187,10 @@ watchEffect(() => {
   font-size: 1em;
 }
 
+.post-buttons{
+  display: flex;
+}
+
 .post-button-submit {
   display: inline-block;
   border-radius: 5%; /* 角丸       */
@@ -197,8 +202,7 @@ watchEffect(() => {
   color: #ffffff; /* 文字色     */
   line-height: 1em; /* 1行の高さ  */
   transition: 0.3s; /* なめらか変化 */
-  box-shadow: 6px 6px 3px #666666; /* 影の設定 */
-  border: 2px solid #4da6ff; /* 枠の指定 */
+  border: 2px solid #000; /*#4da6ff*/
 }
 .post-button-submit:hover {
   box-shadow: none; /* カーソル時の影消去 */

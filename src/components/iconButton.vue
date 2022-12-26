@@ -9,7 +9,7 @@ const props = defineProps({
 </script>
 
 <template>
-  <button class="icon-button">
+  <button class="icon-button shadow">
     <img :src="icon" />
     <div class="mask">{{caption}}</div>
   </button>
