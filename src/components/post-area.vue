@@ -32,19 +32,24 @@ function getToml() {
 }
 
 function post() {
-  var ret = getToml();
-
-  // toml文字列をクリップボードへコピー
-  if (navigator.clipboard) {
-    navigator.clipboard.writeText(ret); //.then(()=>...
-  } else alert("クリップボードへコピーできませんでした。");
-
   // GitHubのページへジャンプ
   window.open(
     `https://github.com/${user}/Sni-ba-snippets/edit/main/${langStr}.toml`,
     "_blank",
     "noreferrer"
   );
+}
+
+const copy_mes = ref("");
+function copy() {
+  var ret = getToml();
+  // toml文字列をクリップボードへコピー
+  if (navigator.clipboard) {
+    navigator.clipboard.writeText(ret); //.then(()=>...
+    copy_mes.value = "Copied!";
+    // 3秒待ってから文字を消す。
+    new Promise(resolve => setTimeout(resolve, 3000)).then(()=>copy_mes.value="")
+  } else alert("クリップボードへコピーできませんでした。");
 }
 
 const post_thumb_dict: {
@@ -151,12 +156,16 @@ watchEffect(() => {
       </code>
 
       <div class="post-buttons">
-
-        <button 
-        class="post-button-submit shadow"
-        @click="post"
-        >投稿...</button>
+        <button class="post-button-submit shadow" @click="copy">
+          <img class="post-button-icon" src="/img/clipboard.png" />
+          Copy toml
+        </button>
+        <button class="post-button-submit shadow" @click="post">
+          <img class="post-button-icon" src="/img/windowlink.png" />
+          Jump to Github...
+        </button>
       </div>
+      <div v-show="copy_mes!=''">{{ copy_mes }}</div>
     </div>
   </div>
 </template>
@@ -187,8 +196,9 @@ watchEffect(() => {
   font-size: 1em;
 }
 
-.post-buttons{
+.post-buttons {
   display: flex;
+  gap: 10px;
 }
 
 .post-button-submit {
@@ -198,8 +208,8 @@ watchEffect(() => {
   text-align: center; /* 文字位置   */
   cursor: pointer; /* カーソル   */
   padding: 12px 12px; /* 余白       */
-  background: #4da6ff; /* 背景色     */
-  color: #ffffff; /* 文字色     */
+  background: var(--button-color);
+  /* color: #ffffff;  */
   line-height: 1em; /* 1行の高さ  */
   transition: 0.3s; /* なめらか変化 */
   border: 2px solid #000; /*#4da6ff*/
@@ -215,4 +225,8 @@ watchEffect(() => {
   flex-flow: column;
   gap: 10px;
 }
+.post-button-icon{
+  vertical-align: middle;
+}
+
 </style>

@@ -62,6 +62,7 @@ const analytics = getAnalytics(app);
 :root {
   /* --panel-bgcolor: #eee; */
   --snippet-bgcolor: #eee;
+  --button-color: #fafafa;
 }
 body {
   background-color: #eee;

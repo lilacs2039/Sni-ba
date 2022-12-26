@@ -22,7 +22,7 @@ const props = defineProps({
   border-radius: 10px;
   overflow: hidden;
   position: relative; /* 相対位置指定 */
-  background-color:#fafafa;
+  background-color:var(--button-color);
 }
 .icon-button .mask {
   width: 100%;
