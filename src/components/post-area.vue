@@ -28,8 +28,24 @@ function md2html(mdstr: string) {
   return marked.marked(mdstr.replace(/\r?\n/g, "  \n"), { sanitize: true });
 }
 
-function getToml() {
-  return json2toml({ snippets: post_snippets });
+function getToml(): string {
+  // return json2toml({ snippets: post_snippets });
+  return post_snippets
+    .map(
+      (s) => `
+[[snippets]]
+title = "${s.title}"
+description = """
+${s.description}
+"""
+url = "${s.url}"
+code = """
+${s.code}
+"""
+thumbnail = "${s.thumbnail}"
+`
+    )
+    .join("\n");
 }
 
 function post() {
@@ -49,7 +65,9 @@ function copy() {
     navigator.clipboard.writeText(ret); //.then(()=>...
     copy_mes.value = "Copied!";
     // 3秒待ってから文字を消す。
-    new Promise(resolve => setTimeout(resolve, 3000)).then(()=>copy_mes.value="")
+    new Promise((resolve) => setTimeout(resolve, 3000)).then(
+      () => (copy_mes.value = "")
+    );
   } else alert("クリップボードへコピーできませんでした。");
 }
 
@@ -131,9 +149,19 @@ watchEffect(() => {
         />
 
         <div class="post-key">thumbnail</div>
-        <button class="post-input shadow" @click="paste_thumbnail(snippet)">
-          Paste Image from clipboard
-        </button>
+        <div class="post-input">
+          <button
+            class="thumbnail-button shadow"
+            @click="paste_thumbnail(snippet)"
+          >
+            Paste Image from clipboard
+          </button>
+          <iconButton
+            caption="クリア"
+            icon="/img/clear.png"
+            @click="snippet.thumbnail = ''"
+          />
+        </div>
         <div class="post-key"><!-- placeholder --></div>
         <div class="post-input">
           <div>{{ post_thumb_mes }}</div>
@@ -155,12 +183,14 @@ watchEffect(() => {
       <code wrap="off">
         <pre>{{ getToml() }}</pre>
       </code>
+      <!-- <textarea wrap="off" rows="5">{{ getToml() }}</textarea>
+      <pre wrap="off">{{ getToml() }}</pre> -->
 
       <div class="post-buttons">
         <icon-text-button icon="/img/clipboard.png" text="Copy toml" />
         <icon-text-button icon="/img/windowlink.png" text="Jump to Github..." />
       </div>
-      <div v-show="copy_mes!=''">{{ copy_mes }}</div>
+      <div v-show="copy_mes != ''">{{ copy_mes }}</div>
     </div>
   </div>
 </template>
@@ -187,8 +217,15 @@ watchEffect(() => {
   grid-column: 2;
 }
 .post-input {
-  /* height: 1.5em; */
+  display: flex;
   font-size: 1em;
+  gap: 10px;
+}
+
+.thumbnail-button {
+  font-size: 1.2em;
+  vertical-align: middle;
+  flex-grow: 1;
 }
 
 .post-buttons {
@@ -220,8 +257,7 @@ watchEffect(() => {
   flex-flow: column;
   gap: 10px;
 }
-.post-button-icon{
+.post-button-icon {
   vertical-align: middle;
 }
-
 </style>

@@ -18,8 +18,6 @@ import { parse } from "@babel/parser";
 import { initializeApp } from "firebase/app";
 import { getAnalytics } from "firebase/analytics";
 
-
-
 // ---------  クエリストリングから復元  ---------
 const parsed = queryString.parse(location.search);
 // 言語
@@ -70,17 +68,18 @@ body {
   padding: 0;
 }
 
-code{
+code {
+  overflow-x: scroll;
   text-align: left;
   background-color: #ddd;
   margin: 5px 20px;
   padding: 0 10px;
 }
-button{
+button {
   cursor: pointer;
 }
 
-.shadow{
+.shadow {
   box-shadow: 0 3px 5px rgba(0, 0, 0, 0.3);
 }
 

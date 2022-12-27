@@ -37,9 +37,13 @@ fetch(`https://api.github.com/repos/${user}/Sni-ba-snippets/contents`, {
       });
     });
     langs.sort((a, b) =>
-        a.name.toLowerCase() < b.name.toLowerCase() ? -1 : 1
-      )
+      a.name.toLowerCase() < b.name.toLowerCase() ? -1 : 1
+    );
   });
+
+function onIconError(langName: string) {
+  langs.filter((l) => l.name == langName)[0].icon = "";
+}
 </script>
 
 <template >
@@ -53,7 +57,13 @@ fetch(`https://api.github.com/repos/${user}/Sni-ba-snippets/contents`, {
     >
       <!-- '📄bat,🐍Python,TypeScript,🌐Web'.split(',')" -->
       <a class="nav-item-link" :href="`?lang=${lang.name}`">
-        <img class="nav-icon" :src="lang.icon" /> {{ lang.name }}</a
+        <img
+          class="nav-icon"
+          v-if="lang.icon != ''"
+          :src="lang.icon"
+          @error="onIconError(lang.name)"
+        />
+        {{ lang.name }}</a
       >
     </li>
   </ul>

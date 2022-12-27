@@ -99,7 +99,7 @@ export class SnippetDefinitions {
                             this.dic[x.title] = {
                                 title: x.title,
                                 // icon: x.icon,
-                                thumbnail: URL.createObjectURL(toBlob(x.thumbnail, 'image/png')),
+                                thumbnail:x.thumbnail!=undefined? URL.createObjectURL(toBlob(x.thumbnail, 'image/png')) : "/img/code.png",
                                 description: x.description,
                                 code: x.code,
                                 visible: true,

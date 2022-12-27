@@ -4,14 +4,14 @@ import rison from "rison";
 export const KEY_CONTEXT: string = "context";
 
 export class Context {
-    public snippets = reactive([
-        {
-            title: "任意コード",
-            thumbnail: "code",
-            description: "任意のコードを記述",
-            code: "任意のコード"
-        }]
-    );
+    public snippets: [{
+        [key: string]: {
+            title: string,
+            thumbnail: string,
+            description: string,
+            code: string,
+        }
+    }] = reactive([]);
     public filename = ref("filename.bat");
 
     constructor(parsed: string = "") { }
