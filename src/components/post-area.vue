@@ -149,7 +149,7 @@ watchEffect(() => {
         />
 
         <div class="post-key">thumbnail</div>
-        <div class="post-input">
+        <div class="post-input post-thumbnail">
           <button
             class="thumbnail-button shadow"
             @click="paste_thumbnail(snippet)"
@@ -165,7 +165,10 @@ watchEffect(() => {
         <div class="post-key"><!-- placeholder --></div>
         <div class="post-input">
           <div>{{ post_thumb_mes }}</div>
-          <img :src="post_thumb_dict[snippet.title]" />
+          <img
+            class="post-thumbnail-img"
+            :src="post_thumb_dict[snippet.title]"
+          />
         </div>
 
         <div class="post-key">code</div>
@@ -180,7 +183,7 @@ watchEffect(() => {
 
     <div class="post-confirm">
       <div>投稿TOML</div>
-      <code wrap="off">
+      <code class="post-toml-code" wrap="off">
         <pre>{{ getToml() }}</pre>
       </code>
       <!-- <textarea wrap="off" rows="5">{{ getToml() }}</textarea>
@@ -196,6 +199,10 @@ watchEffect(() => {
 </template>
 
 <style>
+:root {
+  --post-area-maxwidth: 800px;
+}
+
 .post-item {
   display: flex;
 }
@@ -217,15 +224,23 @@ watchEffect(() => {
   grid-column: 2;
 }
 .post-input {
-  display: flex;
   font-size: 1em;
+}
+.post-thumbnail {
+  display: flex;
   gap: 10px;
 }
-
+.post-thumbnail-img {
+  max-width: var(--post-area-maxwidth);
+}
 .thumbnail-button {
   font-size: 1.2em;
   vertical-align: middle;
   flex-grow: 1;
+}
+
+.post-toml-code {
+  max-width: var(--post-area-maxwidth);
 }
 
 .post-buttons {
