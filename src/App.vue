@@ -52,19 +52,17 @@ const analytics = getAnalytics(app);
 
   <div class="page">
     <div class="picker"><picker /></div>
-    <div class="workarea"><workarea /></div>
   </div>
 </template>
 
 <style>
 :root {
-  /* --panel-bgcolor: #eee; */
   --snippet-bgcolor: #eee;
   --button-color: #fafafa;
 }
 body {
   background-color: #eee;
-  margin: 0;
+  margin: 0 20px;
   padding: 0;
 }
 
@@ -72,7 +70,6 @@ code {
   overflow-x: scroll;
   text-align: left;
   background-color: #ddd;
-  margin: 5px 20px;
   padding: 0 10px;
 }
 button {
@@ -84,31 +81,16 @@ button {
 }
 
 .page {
-  display: grid;
   height: 100vh;
-  grid-template-columns: 1fr 1fr;
-  grid-template-rows: max-content auto;
-  grid-template-areas:
-    "header header"
-    "picker workarea";
-
-  /* background-color: #333333; */
   gap: 50px;
-  /* 横幅　上限付き自動調整 */
-  max-width: 1800px;
-  margin: auto;
 }
 .header {
   grid-area: header;
-  /* background-color: darkgray; */
 }
 .picker {
   grid-area: picker;
-  height: 100%;
-  /* background-color: #eee; */
 }
 .workarea {
   grid-area: workarea;
-  /* background-color: #eee; */
 }
 </style>

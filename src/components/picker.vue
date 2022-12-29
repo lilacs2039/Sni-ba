@@ -1,9 +1,14 @@
 <script setup lang="ts">
 import { ref, reactive, inject, provide } from "vue";
 import { EditorContext } from "../store/EditorContext";
-import { langStrKey, editorContextKey, snippetDefinitionsKey } from "../store/keys";
+import {
+  langStrKey,
+  editorContextKey,
+  snippetDefinitionsKey,
+} from "../store/keys";
 import { SnippetDefinitions } from "../store/SnippetDefinitions";
 import iconButton from "./iconButton.vue";
+import iconTextButton from "./iconTextButton.vue";
 import pickerSnippets from "./pickerSnippets.vue";
 
 const langStr = inject(langStrKey) as string;
@@ -21,10 +26,44 @@ function _findGoogle() {
     "_blank"
   );
 }
+
+const user = "lilacs2039";
+var showArea = ref("search"); // search/post/pin
+function show(area: string) {
+  showArea.value = area;
+}
+function newLang() {
+  // GitHubのページへジャンプ
+  window.open(
+    `https://github.com/${user}/Sni-ba-snippets/new/main`,
+    "_blank",
+    "noreferrer"
+  );
+}
 </script>
 
 <template class="picker">
-  <div class="search-container">
+  <!-- メニュー -->
+  <div class="menu">
+    <icon-text-button
+      text="View"
+      icon="/img/side-right-view.png"
+      @click="show('search')"
+    />
+    <icon-text-button
+      text="Post..."
+      icon="/img/upload.png"
+      @click="show('post')"
+    />
+    <icon-text-button
+      text="New lang..."
+      icon="/img/blank-file.png"
+      @click="newLang"
+    />
+  </div>
+  <post_area v-show="showArea == 'post'" />
+  <!-- 検索 -->
+  <div class="search-container" v-show="showArea == 'search'">
     <input
       type="text"
       class="search-input"
@@ -42,8 +81,11 @@ function _findGoogle() {
     </div>
 
     <div class="search-tags">
-
-      <div class="search-tag-group" v-for="(tagGroup, i) in snippetDefinitions.tagGroups" v-bind:key="i">
+      <div
+        class="search-tag-group"
+        v-for="(tagGroup, i) in snippetDefinitions.tagGroups"
+        v-bind:key="i"
+      >
         <span class="search-tag">{{ tagGroup.name }}：</span>
         <span v-for="(tagtext, index) in tagGroup.tags" v-bind:key="index">
           <button
@@ -58,13 +100,16 @@ function _findGoogle() {
         </span>
       </div>
     </div>
-
   </div>
 
   <pickerSnippets />
 </template>
 
 <style>
+.menu {
+  display: flex;
+  gap: 10px;
+}
 .picker {
   display: grid;
   grid-template-rows: max-content auto;
@@ -80,6 +125,7 @@ function _findGoogle() {
   /* background-color: var(--panel-bgcolor); */
   gap: 1px;
   padding: 5px;
+  max-width: 800px;
   /* margin: 5px; */
 }
 .search-input {

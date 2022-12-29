@@ -9,86 +9,80 @@ const context = inject(editorContextKey);
 </script>
 
 <template>
-    <ul class="snippets-container">
-      <template
-        v-for="(item, index) in Object.values(snippetDefinitions.dic)"
-        v-bind:key="index"
-      >
-        <li class="snippet-list" v-show="item.visible">
-          <div>
-            <button
-              class="picker-snippet snippet-common shadow"
+  <ul class="snippets-container">
+    <template
+      v-for="(item, index) in Object.values(snippetDefinitions.dic)"
+      v-bind:key="index"
+    >
+      <li class="snippet-list" v-show="item.visible">
+        <div class="picker-snippet snippet">
+          <div class="snippet-title-container">
+            <div class="snippet-title">{{ item.title }}</div>
+            <iconButton
+              class="snippet-pin-icon"
+              caption="Pin"
+              icon="/img/pin.png"
               @click="context.addSnippet(item)"
-            >
-              <img class="snippet-common-icon" :src="`${item.thumbnail}`" />
-
-              <div class="snippet-common-title">{{ item.title }}</div>
-              <div class="snippet-common-description">
-                {{ item.description }}
-              </div>
-              <code class="snippet-common-code"><pre>{{ item.code }}</pre></code>
-            </button>
+            />
           </div>
-        </li>
-      </template>
-    </ul>
+          <img class="snippet-thumbnail" :src="`${item.thumbnail}`" />
+          <div class="snippet-description">{{ item.description }}</div>
+          <code class="snippet-code">
+            <pre>{{ item.code }}</pre>
+          </code>
+        </div>
+      </li>
+    </template>
+  </ul>
 </template>
 
 <style>
+.snippets-container {
+  padding: 5px;
+  margin: 0px;
+  /* gap:10px; */
+
+  column-count: auto;
+  column-width: 500px;
+}
+
 .snippet-list {
   list-style: none;
+  page-break-inside: avoid;
+  break-inside: avoid;
+  margin: 50px 15px;
 }
-.snippet-common {
-  background-color: var(--snippet-bgcolor);
+.snippet {
   gap: 3px;
-  margin: 5px;
-  width: 99%;
-  /* box-shadow: 0 3px 5px rgba(0, 0, 0, 0.3); */
-  cursor: pointer;
-  border-radius: 10px;
+  /* margin: 20px; */
 }
-.snippet-common:hover {
-  background-color: var(--panel-bgcolor);
+.snippet-pin-icon{
+  margin : 1px;
 }
-.snippet-common-icon {
-  grid-area: icon;
-  align-items: center;
-  place-items: center;
-  background-color: #222;
+.snippet-thumbnail {
+  display: block;
+  margin: auto;
 }
-.snippet-common-title {
-  grid-area: title;
+.snippet-title-container {
+  display: flex;
+}
+.snippet-title {
   text-align: left;
   vertical-align: middle;
   font-weight: bold;
   font-size: 1.2em;
+  flex-grow: 1;
 }
-.snippet-common-code {
-  grid-area: code;
-  
+.snippet-code {
   display: flex;
   align-items: center;
   vertical-align: middle;
 }
-.snippet-common-description {
-  grid-area: desc;
+.snippet-description {
   font-size: 0.7em;
   text-align: left;
 }
 
-.snippets-container {
-  /* background-color: var(--panel-bgcolor); */
-  padding: 5px;
-  margin: 0px;
-}
 .picker-snippet {
-  display: grid;
-  /* height: 100vh; */
-  grid-template-columns: min-content auto;
-  grid-template-rows: max-content max-content auto;
-  grid-template-areas:
-    "icon title"
-    "icon desc"
-    "code code";
 }
 </style>

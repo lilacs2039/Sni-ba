@@ -18,6 +18,7 @@ const props = defineProps({
 <style>
 .icon-button {
   width:50px;
+  height:40px;
   border: 2px solid #000;
   border-radius: 10px;
   overflow: hidden;
