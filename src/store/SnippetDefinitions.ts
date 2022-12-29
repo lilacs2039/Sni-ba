@@ -31,39 +31,12 @@ export class SnippetDefinitions {
     ] = reactive([]);
 
     constructor(langStr: string) {
-        const assetsUrl = batUrl.replace("/bat.tsv", "");
-
-        // snippetsDefinitionUrlの初期化
-        // fetch(`${assetsUrl}/${langStr}.tsv`)
-        //     .then((response) => response.text())
-        //     .then((input) => {
-        //         var lines = input.split("\r\n").filter((x) => !x.match(/^\s/) && x != ""); //tsvの空行を除外
-        //         const header = lines[0].split("\t");
-
-        //         const tmp = lines.slice(1).map((line) => {
-        //             const fields = line.split("\t");
-        //             return Object.fromEntries(header.map((h, i) => [h, fields[i]]));
-        //         }).forEach((x) => this.dic[x.title] = {
-        //             title: x.title,
-        //             icon: x.icon,
-        //             description: x.description,
-        //             code: x.code,
-        //             visible: true,
-        //         })
-        //     });
-
-        // tomlの読み込み　（タグ、スニペット）
-        // const filename = "bat.toml";
 
         // GitHubからtomlのリスト取得
         const user = "lilacs2039";
-        // fetch(`https://api.github.com/repos/${user}/Sni-ba-snippets/contents`, 
-        //     { method: "GET", headers: { "Accept": "application/vnd.github.v3+json" } })
-        //     .then(d => d.json())
-        //     .then(j => console.log(j.map(e => e.name).filter((e:string)=>e.endsWith(".toml")) ));
 
         function toBlob(b64: string, type: string): Blob {
-            if(b64 == undefined ) return new Blob();
+            if (b64 == undefined) return new Blob();
             // var bin = Buffer.from(b64.replace(/^.*,/, ''), 'base64');
             var bin = atob(b64.replace(/^.*,/, ''));
             var buffer = new Uint8Array(bin.length);
@@ -99,7 +72,7 @@ export class SnippetDefinitions {
                             this.dic[x.title] = {
                                 title: x.title,
                                 // icon: x.icon,
-                                thumbnail:x.thumbnail!=undefined? URL.createObjectURL(toBlob(x.thumbnail, 'image/png')) : "/img/code.png",
+                                thumbnail: x.thumbnail ? URL.createObjectURL(toBlob(x.thumbnail, 'image/png')) : "",  // undefined|"" -> ""
                                 description: x.description,
                                 code: x.code,
                                 visible: true,

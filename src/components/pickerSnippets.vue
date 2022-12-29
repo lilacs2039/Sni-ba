@@ -6,6 +6,8 @@ import iconButton from "./iconButton.vue";
 
 const snippetDefinitions = inject(snippetDefinitionsKey);
 const context = inject(editorContextKey);
+
+var showSnippet = ref(null);
 </script>
 
 <template>
@@ -14,18 +16,29 @@ const context = inject(editorContextKey);
       v-for="(item, index) in Object.values(snippetDefinitions.dic)"
       v-bind:key="index"
     >
-      <li class="snippet-list" v-show="item.visible">
+      <li
+        class="snippet-list"
+        v-show="item.visible"
+        v-on:mouseover="showSnippet = item"
+        v-on:mouseleave="showSnippet = null"
+      >
+        <div class="snippet-operation" v-if="showSnippet == item">
+          <iconButton
+            class="snippet-pin-icon"
+            caption="Pin"
+            icon="/img/pin.png"
+            @click="context.addSnippet(item)"
+          />
+        </div>
         <div class="picker-snippet snippet">
           <div class="snippet-title-container">
             <div class="snippet-title">{{ item.title }}</div>
-            <iconButton
-              class="snippet-pin-icon"
-              caption="Pin"
-              icon="/img/pin.png"
-              @click="context.addSnippet(item)"
-            />
           </div>
-          <img class="snippet-thumbnail" :src="`${item.thumbnail}`" />
+          <img
+            class="snippet-thumbnail"
+            :src="`${item.thumbnail}`"
+            v-show="item.thumbnail != ''"
+          />
           <div class="snippet-description">{{ item.description }}</div>
           <code class="snippet-code">
             <pre>{{ item.code }}</pre>
@@ -53,6 +66,7 @@ const context = inject(editorContextKey);
   break-inside: avoid;
   /* width:var(--snippet-width); */
   margin: 0px 15px;
+  position: relative;
 }
 .snippet {
   gap: 3px;
@@ -70,9 +84,9 @@ const context = inject(editorContextKey);
 }
 .snippet-title {
   text-align: left;
-  vertical-align: middle;
+  /* vertical-align: middle; */
   font-weight: bold;
-  font-size: 1.2em;
+  font-size: 20px;
   flex-grow: 1;
 }
 .snippet-code {
@@ -88,5 +102,11 @@ const context = inject(editorContextKey);
   height: 50px;
 }
 .picker-snippet {
+}
+
+.snippet-operation {
+  position: absolute;
+  right: 0px;
+  top: 0px;
 }
 </style>

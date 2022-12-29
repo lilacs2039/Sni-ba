@@ -32,8 +32,7 @@ function getToml(): string {
   // return json2toml({ snippets: post_snippets });
   return post_snippets
     .map(
-      (s) => `
-[[snippets]]
+      (s) => `[[snippets]]
 title = "${s.title}"
 description = """
 ${s.description}
