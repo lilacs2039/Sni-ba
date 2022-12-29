@@ -5,6 +5,7 @@ import json2toml from "json2toml";
 // import json2toml from "/node_modules/json2toml/index.js";
 import iconButton from "./iconButton.vue";
 import iconTextButton from "./iconTextButton.vue";
+import imageInput from "./image-input.vue";
 import { Context } from "../store/Context";
 import { editorContextKey, langStrKey } from "../store/keys";
 // import {marked} from "marked";
@@ -70,53 +71,14 @@ function copy() {
   } else alert("クリップボードへコピーできませんでした。");
 }
 
-const post_thumb_dict: {
-  [title: string]: [url: string];
-} = reactive({});
-var post_thumb_mes = ref("");
 var post_snippet_toml = ref("");
 
-function paste_thumbnail(snippet) {
-  post_thumb_mes.value = "";
-
-  navigator.clipboard
-    .read()
-    .then((clipItems: ClipboardItems) => {
-      const clipItem = clipItems[0];
-      const type = clipItem.types.filter((s) => s.startsWith("image/"))[0]; // ex. "image/png"
-      if (type == undefined) {
-        post_thumb_mes.value = "Image not found in clipboard.";
-        post_thumb_dict[snippet.title] = "";
-        return;
-      }
-
-      clipItem.getType(type).then((blob: Blob) => {
-        var url = URL.createObjectURL(blob);
-        post_thumb_dict[snippet.title] = url;
-        post_thumb_mes.value = `Type : ${type},  Size : ${Math.round(
-          blob.size / 1000
-        )}kB`;
-
-        function blobToBase64(blob: Blob) {
-          return new Promise((resolve, _) => {
-            const reader = new FileReader();
-            reader.onloadend = () => resolve(reader.result);
-            reader.readAsDataURL(blob);
-          });
-        }
-        blobToBase64(blob).then((b64) => (snippet.thumbnail = b64));
-      });
-    })
-    .catch((e) => {
-      if (e instanceof DOMException) post_thumb_mes.value = e.message;
-      else console.log(e);
-    });
-}
 
 watchEffect(() => {
-  post_thumb_dict;
+  post_snippets;
   post_snippet_toml.value = getToml();
 });
+
 </script>
 
 <template>
@@ -148,24 +110,8 @@ watchEffect(() => {
         />
 
         <div class="post-key">thumbnail</div>
-        <div class="post-input post-thumbnail">
-          <button
-            class="thumbnail-button shadow"
-            @click="paste_thumbnail(snippet)"
-          >
-            Paste Image from clipboard
-          </button>
-          <iconButton
-            caption="クリア"
-            icon="/img/clear.png"
-            @click="snippet.thumbnail = ''"
-          />
-        </div>
-        <div class="post-key"><!-- placeholder --></div>
-        <div class="post-input">
-          <div>{{ post_thumb_mes }}</div>
-          <img class="post-thumbnail-img" :src="snippet.thumbnail" />
-        </div>
+        <imageInput class="post-input" @onChanged="b64=>snippet.thumbnail = b64"/>
+
 
         <div class="post-key">code</div>
         <textarea
@@ -220,10 +166,6 @@ watchEffect(() => {
 }
 .post-input {
   font-size: 1.2em;
-}
-.post-thumbnail {
-  display: flex;
-  gap: 10px;
 }
 .post-thumbnail-img {
   max-width: var(--snippet-width);

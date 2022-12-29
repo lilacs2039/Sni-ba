@@ -78,6 +78,7 @@ var showSnippet = ref(null);
 .snippet-thumbnail {
   display: block;
   margin: auto;
+  max-width: var(--snippet-width);
 }
 .snippet-title-container {
   display: flex;
