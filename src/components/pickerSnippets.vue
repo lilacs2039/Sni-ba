@@ -31,6 +31,7 @@ const context = inject(editorContextKey);
             <pre>{{ item.code }}</pre>
           </code>
         </div>
+        <div class="snippet-margin"></div>
       </li>
     </template>
   </ul>
@@ -39,25 +40,26 @@ const context = inject(editorContextKey);
 <style>
 .snippets-container {
   padding: 5px;
-  margin: 0px;
+  margin: 20px 0px;
   /* gap:10px; */
 
   column-count: auto;
-  column-width: 500px;
+  column-width: var(--snippet-width);
 }
 
 .snippet-list {
   list-style: none;
   page-break-inside: avoid;
   break-inside: avoid;
-  margin: 50px 15px;
+  /* width:var(--snippet-width); */
+  margin: 0px 15px;
 }
 .snippet {
   gap: 3px;
   /* margin: 20px; */
 }
-.snippet-pin-icon{
-  margin : 1px;
+.snippet-pin-icon {
+  margin: 1px;
 }
 .snippet-thumbnail {
   display: block;
@@ -82,7 +84,9 @@ const context = inject(editorContextKey);
   font-size: 0.7em;
   text-align: left;
 }
-
+.snippet-margin {
+  height: 50px;
+}
 .picker-snippet {
 }
 </style>

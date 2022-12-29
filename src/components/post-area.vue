@@ -121,7 +121,7 @@ watchEffect(() => {
 </script>
 
 <template>
-  <div>
+  <div class="post-arae">
     <div v-for="(snippet, i) in post_snippets" v-bind:key="i">
       <div class="post-items">
         <div class="post-key">title</div>
@@ -165,10 +165,7 @@ watchEffect(() => {
         <div class="post-key"><!-- placeholder --></div>
         <div class="post-input">
           <div>{{ post_thumb_mes }}</div>
-          <img
-            class="post-thumbnail-img"
-            :src="post_thumb_dict[snippet.title]"
-          />
+          <img class="post-thumbnail-img" :src="snippet.thumbnail" />
         </div>
 
         <div class="post-key">code</div>
@@ -186,12 +183,10 @@ watchEffect(() => {
       <code class="post-toml-code" wrap="off">
         <pre>{{ getToml() }}</pre>
       </code>
-      <!-- <textarea wrap="off" rows="5">{{ getToml() }}</textarea>
-      <pre wrap="off">{{ getToml() }}</pre> -->
 
       <div class="post-buttons">
-        <icon-text-button icon="/img/clipboard.png" text="Copy toml" />
-        <icon-text-button icon="/img/windowlink.png" text="Jump to Github..." />
+        <icon-text-button icon="/img/clipboard.png" text="Copy toml" @click="copy" />
+        <icon-text-button icon="/img/windowlink.png" text="Jump to Github..."  @click="post" />
       </div>
       <div v-show="copy_mes != ''">{{ copy_mes }}</div>
     </div>
@@ -200,9 +195,11 @@ watchEffect(() => {
 
 <style>
 :root {
-  --post-area-maxwidth: 800px;
+  --post-area-maxwidth: 1000px;
 }
-
+.post-arae {
+  max-width: var(--post-area-maxwidth);
+}
 .post-item {
   display: flex;
 }
@@ -215,23 +212,22 @@ watchEffect(() => {
   gap: 4px;
 }
 .post-key {
-  /* grid-row: 1; */
   grid-column: 1;
+  font-size: 1.2em;
   font-weight: bold;
 }
 .post-value {
-  /* grid-row: 1;  */
   grid-column: 2;
 }
 .post-input {
-  font-size: 1em;
+  font-size: 1.2em;
 }
 .post-thumbnail {
   display: flex;
   gap: 10px;
 }
 .post-thumbnail-img {
-  max-width: var(--post-area-maxwidth);
+  max-width: var(--snippet-width);
 }
 .thumbnail-button {
   font-size: 1.2em;
@@ -240,7 +236,7 @@ watchEffect(() => {
 }
 
 .post-toml-code {
-  max-width: var(--post-area-maxwidth);
+  margin : 10px 20px;
 }
 
 .post-buttons {
@@ -248,24 +244,6 @@ watchEffect(() => {
   gap: 10px;
 }
 
-.post-button-submit {
-  display: inline-block;
-  border-radius: 5%; /* 角丸       */
-  font-size: 18pt; /* 文字サイズ */
-  text-align: center; /* 文字位置   */
-  cursor: pointer; /* カーソル   */
-  padding: 12px 12px; /* 余白       */
-  background: var(--button-color);
-  /* color: #ffffff;  */
-  line-height: 1em; /* 1行の高さ  */
-  transition: 0.3s; /* なめらか変化 */
-  border: 2px solid #000; /*#4da6ff*/
-}
-.post-button-submit:hover {
-  box-shadow: none; /* カーソル時の影消去 */
-  color: #4da6ff; /* 背景色     */
-  background: #ffffff; /* 文字色     */
-}
 
 .post-confirm {
   display: flex;

@@ -10,6 +10,7 @@ import { SnippetDefinitions } from "../store/SnippetDefinitions";
 import iconButton from "./iconButton.vue";
 import iconTextButton from "./iconTextButton.vue";
 import pickerSnippets from "./pickerSnippets.vue";
+import post_area from "./post-area.vue";
 
 const langStr = inject(langStrKey) as string;
 const snippetDefinitions = inject(snippetDefinitionsKey) as SnippetDefinitions;
@@ -63,46 +64,46 @@ function newLang() {
   </div>
   <post_area v-show="showArea == 'post'" />
   <!-- 検索 -->
-  <div class="search-container" v-show="showArea == 'search'">
-    <input
-      type="text"
-      class="search-input"
-      placeholder="検索..."
-      v-model="searchStr"
-      v-on:change="snippetDefinitions.search(searchStr)"
-    />
-    <div class="search-buttons">
-      <iconButton caption="クリア" icon="/img/clear.png" @click="_clear" />
-      <iconButton
-        caption="ググる"
-        icon="img/windowlink.png"
-        @click="_findGoogle"
+  <div v-show="showArea == 'search'">
+    <div class="search-container">
+      <input
+        type="text"
+        class="search-input"
+        placeholder="検索..."
+        v-model="searchStr"
+        v-on:change="snippetDefinitions.search(searchStr)"
       />
-    </div>
+      <div class="search-buttons">
+        <iconButton caption="クリア" icon="/img/clear.png" @click="_clear" />
+        <iconButton
+          caption="ググる"
+          icon="img/windowlink.png"
+          @click="_findGoogle"
+        />
+      </div>
 
-    <div class="search-tags">
-      <div
-        class="search-tag-group"
-        v-for="(tagGroup, i) in snippetDefinitions.tagGroups"
-        v-bind:key="i"
-      >
-        <span class="search-tag">{{ tagGroup.name }}：</span>
-        <span v-for="(tagtext, index) in tagGroup.tags" v-bind:key="index">
-          <button
-            class="search-tag"
-            @click="
-              searchStr += ' ' + tagtext;
-              snippetDefinitions.search(searchStr);
-            "
-          >
-            {{ tagtext }}
-          </button>
-        </span>
+      <div class="search-tags">
+        <div
+          class="search-tag-group"
+          v-for="(tagGroup, i) in snippetDefinitions.tagGroups"
+          v-bind:key="i"
+        >
+          <span>{{ tagGroup.name }}：</span>
+            <button v-for="(tagtext, index) in tagGroup.tags" v-bind:key="index"
+              class="search-tag"
+              @click="
+                searchStr += ' ' + tagtext;
+                snippetDefinitions.search(searchStr);
+              "
+            >
+              {{ tagtext }}
+            </button>
+        </div>
       </div>
     </div>
-  </div>
 
-  <pickerSnippets />
+    <pickerSnippets />
+  </div>
 </template>
 
 <style>
@@ -139,6 +140,9 @@ function newLang() {
   grid-area: tags;
   /* display: flex; */
   /* flex-wrap: wrap; */
+}
+.search-tag{
+  height: 2em;
 }
 .search-tag-group {
   display: flex;
