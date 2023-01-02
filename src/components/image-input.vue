@@ -2,13 +2,6 @@
 import { ref, reactive } from "vue";
 import iconButton from "./iconButton.vue";
 import MedianCut from "mediancut";
-// import { toGif } from '@rgba-image/gif'
-// import { fromAnimatedGif } from "rgba-image-gif";
-// import { toAnimatedGif } from "rgba-image-gif";
-import { Gif } from "make-a-gif";
-// import GIFEncoder from "gif-encoder-2-browser";
-// import sharp from "sharp";
-// import { Context } from "../store/Context";
 
 const imgUrl = ref("");
 const post_thumb_mes = ref("");
@@ -57,27 +50,6 @@ function blobToBase64(blob: Blob): Promise<string> {
   });
 }
 
-// function imageData2blob_gifEncoder2(imageData: ImageData): Blob {
-//   //canvas: HTMLCanvasElement){
-//   let canvas = document.createElement("canvas");
-//   canvas.width = imageData.width;
-//   canvas.height = imageData.height;
-//   const ctx = canvas.getContext("2d");
-//   ctx.putImageData(imageData, 0, 0);
-
-//   const encoder = new GIFEncoder(imageData.width, imageData.height);
-//   encoder.setDelay(500);
-//   encoder.start();
-//   console.log(ctx);
-//   console.log(encoder);
-//   encoder.addFrame(ctx);
-//   encoder.finish();
-
-//   const buffer = encoder.out.getData();
-//   var blob = new Blob([buffer], { type: "image/gif" });
-//   return blob;
-// }
-
 async function setImage(blobOrig: Blob) {
   if (blobOrig == null) {
     imgUrl.value = "";
@@ -90,30 +62,7 @@ async function setImage(blobOrig: Blob) {
   // 減色
   let medianCut = new MedianCut(imagedata);
   let iData = medianCut.reduce(16);
-  // GIFへ変換
-
-    const myGif = new Gif(500, 500);
-    await myGif.addFrame(iData.data);
-    const render = await myGif.decode();
-
-    var blob = new Blob([Buffer.from(render.buffer)], { type: "image/gif" });
-
-    // console.log(iData.data)
-  // const imageDataFrames = fromAnimatedGif(  new Uint8Array(iData.data.buffer) )
-  // const gif = toAnimatedGif( imageDataFrames )
-
-  // const gif = toGif( iData );
-  // console.log(gif);
-  // const blob = gif;
-
-  // const blob = await sharp(new Uint8Array(iData.data.buffer))
-  //   .resize(200)
-  //   .gif()
-  //   .toBuffer()
-  //   .then((buffer) => new Blob([buffer], { type: "image/gif" }));
-
-  // const blob = imageData2blob_gifEncoder2(iData);
-  // const blob = await ImageDataToBlob(iData); //.then((blob) => {
+  const blob = await ImageDataToBlob(iData);
 
   // blobを処理
   blobToBase64(blob).then((b64) => {
