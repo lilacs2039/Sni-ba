@@ -3,12 +3,12 @@ import { ref, reactive } from "vue";
 import iconButton from "./iconButton.vue";
 import MedianCut from "mediancut";
 // import { toGif } from '@rgba-image/gif'
-import { fromAnimatedGif } from "rgba-image-gif";
-import { toAnimatedGif } from "rgba-image-gif";
-// import { Gif } from "make-a-gif";
+// import { fromAnimatedGif } from "rgba-image-gif";
+// import { toAnimatedGif } from "rgba-image-gif";
+import { Gif } from "make-a-gif";
 // import GIFEncoder from "gif-encoder-2-browser";
-import sharp from "sharp";
-import { Context } from "../store/Context";
+// import sharp from "sharp";
+// import { Context } from "../store/Context";
 
 const imgUrl = ref("");
 const post_thumb_mes = ref("");
@@ -92,14 +92,13 @@ async function setImage(blobOrig: Blob) {
   let iData = medianCut.reduce(16);
   // GIFへ変換
 
-  // {
-  //   const myGif = new Gif(500, 500);
-  //   await myGif.addFrame(iData.data);
-  //   const render = await myGif.decode();
+    const myGif = new Gif(500, 500);
+    await myGif.addFrame(iData.data);
+    const render = await myGif.decode();
 
-  //   var blob = new Blob([Buffer.from(render.buffer)], { type: "image/gif" });
-  // }
-  // console.log(iData.data)
+    var blob = new Blob([Buffer.from(render.buffer)], { type: "image/gif" });
+
+    // console.log(iData.data)
   // const imageDataFrames = fromAnimatedGif(  new Uint8Array(iData.data.buffer) )
   // const gif = toAnimatedGif( imageDataFrames )
 
@@ -107,11 +106,11 @@ async function setImage(blobOrig: Blob) {
   // console.log(gif);
   // const blob = gif;
 
-  const blob = await sharp(new Uint8Array(iData.data.buffer))
-    .resize(200)
-    .gif()
-    .toBuffer()
-    .then((buffer) => new Blob([buffer], { type: "image/gif" }));
+  // const blob = await sharp(new Uint8Array(iData.data.buffer))
+  //   .resize(200)
+  //   .gif()
+  //   .toBuffer()
+  //   .then((buffer) => new Blob([buffer], { type: "image/gif" }));
 
   // const blob = imageData2blob_gifEncoder2(iData);
   // const blob = await ImageDataToBlob(iData); //.then((blob) => {

@@ -10,5 +10,8 @@ export default defineConfig({
       // '@': path.resolve(__dirname, './src'),
       '@/': `${path.resolve(__dirname, 'src')}/`
     },
+  },
+  define: {
+    'process.platform': 'win32'
   }
 })
