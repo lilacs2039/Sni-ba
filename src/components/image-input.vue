@@ -2,9 +2,19 @@
 import { ref, reactive } from "vue";
 import iconButton from "./iconButton.vue";
 import MedianCut from "mediancut";
+import gif_wasm_init, { encode_gif } from "gifenc-rs";
+import gif_wasm_module from "./assets/gifenc_rs_bg.wasm?url";
 
+// import { encode_gif } from "rust-gif-wasm";
+
+// ---------------------- Interface --------------------------
+const emit = defineEmits(["onChanged"]);
+
+// ------------------------------------------------
 const imgUrl = ref("");
 const post_thumb_mes = ref("");
+
+gif_wasm_init(gif_wasm_module);
 
 function BlobToImageData(blob: Blob): Promise<ImageData> {
   let blobUrl = URL.createObjectURL(blob);
@@ -37,7 +47,6 @@ function ImageDataToBlob(imageData: ImageData): Promise<Blob> {
   });
 }
 
-const emit = defineEmits(["onChanged"]);
 function _emit(b64: string) {
   emit("onChanged", b64);
 }
@@ -62,7 +71,17 @@ async function setImage(blobOrig: Blob) {
   // 減色
   let medianCut = new MedianCut(imagedata);
   let iData = medianCut.reduce(16);
-  const blob = await ImageDataToBlob(iData);
+
+  // GIF変換
+  const blob1 = await ImageDataToBlob(iData);
+  const _b64 = await blobToBase64(blob1);
+  const bin = window.atob(_b64.replace(/.+,/, ""));
+  var buffer = new Uint8Array(bin.length);
+  for (var i = 0; i < bin.length; i++) {
+    buffer[i] = bin.charCodeAt(i);
+  }
+  const buf: Uint8Array = encode_gif(buffer as Uint8Array);
+  const blob = new Blob([buf], { type: "image/gif" });
 
   // blobを処理
   blobToBase64(blob).then((b64) => {

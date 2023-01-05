@@ -25,15 +25,20 @@ fetch(`https://api.github.com/repos/${user}/Sni-ba-snippets/contents`, {
 })
   .then((d) => d.json())
   .then((j) => {
-    const files = j.map((e) => e.name);
+    const files = j.map((e) => e.name) as [string];
     const tomls = files.filter((e: string) => e.endsWith(".toml"));
-    const pngs = files.filter((e: string) => e.endsWith(".png"));
+    const images = files.filter(
+      (e: string) => e.match(/\.(svg|png|jpg|jpeg|gif)$/)?.length ?? 0 > 0
+    );
 
     tomls.forEach((filename: string) => {
       const name = filename.replace(".toml", "");
+      const iconName = images.filter((e) => e.startsWith(name)).at(0);
       langs.push({
         name: name,
-        icon: `https://raw.githubusercontent.com/${user}/Sni-ba-snippets/main/${name}.png`,
+        icon: iconName
+          ? `https://raw.githubusercontent.com/${user}/Sni-ba-snippets/main/${iconName}`
+          : "",
       });
     });
     langs.sort((a, b) =>

@@ -38,7 +38,7 @@ export class SnippetDefinitions {
         function toBlob(b64: string, type: string): Blob {
             if (b64 == undefined) return new Blob();
             // var bin = Buffer.from(b64.replace(/^.*,/, ''), 'base64');
-            var bin = atob(b64.replace(/^.*,/, ''));
+            var bin = window.atob(b64.replace(/^.*,/, ''));
             var buffer = new Uint8Array(bin.length);
             for (var i = 0; i < bin.length; i++) {
                 buffer[i] = bin.charCodeAt(i);
