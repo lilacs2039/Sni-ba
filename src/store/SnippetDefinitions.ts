@@ -4,14 +4,7 @@ import batUrl from "../assets/bat.tsv?url";
 import tagsContent from "../assets/tags.txt?raw";
 import { stringify } from "query-string";
 import toml from "toml";
-import {
-    langStrKey,
-    // editorContextKey,
-    // snippetDefinitionsKey,
-} from "../store/keys";
-
 export const KEY_LANG: string = "lang";
-const langStr = inject(langStrKey) as string;
 
 export class SnippetDefinitions {
     public dic: {

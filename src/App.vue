@@ -2,7 +2,7 @@
 // This starter template is using Vue 3 <script setup> SFCs
 // Check out https://vuejs.org/api/sfc-script-setup.html#script-setup
 // import HelloWorld from "/src/components/HelloWorld.vue";
-import { provide } from "vue";
+import { ref, provide } from "vue";
 import navbar from "/src/components/navbar.vue";
 import picker from "/src/components/picker.vue";
 import workarea from "/src/components/workarea.vue";
@@ -17,6 +17,7 @@ import queryString from "query-string";
 import { parse } from "@babel/parser";
 import { initializeApp } from "firebase/app";
 import { getAnalytics } from "firebase/analytics";
+
 
 // ---------  クエリストリングから復元  ---------
 const parsed = queryString.parse(location.search);
@@ -59,7 +60,8 @@ const analytics = getAnalytics(app);
 :root {
   --snippet-bgcolor: #eee;
   --button-color: #fafafa;
-  --snippet-width:500px;
+  /* --snippet-width: v-bind(snippet_width); */
+  --snippet-width: 500px;
 }
 body {
   background-color: #eee;

@@ -67,16 +67,17 @@ function newLang() {
   <div v-show="showArea == 'search'">
     <div class="search-container">
       <input
-        type="text"
-        class="search-input"
-        placeholder="検索..."
+        type="search"
+        class="filter-input"
+        id="filter-snippet"
+        placeholder="Filter..."
         v-model="searchStr"
         v-on:change="snippetDefinitions.search(searchStr)"
       />
       <div class="search-buttons">
-        <iconButton caption="クリア" icon="/img/clear.png" @click="_clear" />
+        <iconButton caption="Clear" icon="/img/clear.png" @click="_clear" />
         <iconButton
-          caption="ググる"
+          caption="Google..."
           icon="img/windowlink.png"
           @click="_findGoogle"
         />
@@ -129,7 +130,7 @@ function newLang() {
   max-width: 800px;
   /* margin: 5px; */
 }
-.search-input {
+.filter-input {
   grid-area: input;
 }
 .search-buttons {
