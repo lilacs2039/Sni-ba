@@ -7,6 +7,9 @@ import gif_wasm_module from "./assets/gifenc_rs_bg.wasm?url";
 import { snippet_width } from "../Util";
 
 // ---------------------- Interface --------------------------
+const props = defineProps({
+ preview: Boolean,  // converted image preview
+});
 const emit = defineEmits(["onChanged"]);
 
 // ------------------------ util ------------------------
@@ -80,7 +83,6 @@ function paste_image() {
       const type = clipItem.types.filter((s) => s.startsWith("image/"))[0]; // ex. "image/png"
       if (type == undefined) {
         setImage(null);
-        console.log(clipItem);
         return;
       }
 
@@ -96,25 +98,23 @@ function paste_image() {
 }
 
 async function input_image(blob: Blob) {
-  // imgUrlOutput.value = blob? URL.createObjectURL(blob):"";
-  // setOriginal(blob);
+  if(!(blob)){
+    blobOriginal = null;
+    post_thumb_mes.value = "";
+    _emit('');
+    return;
+  }
   blobOriginal = blob;
-  // imageDataOriginal.value = blob ? await BlobToImageData(blob) : null;
   post_thumb_mes.value = blob ? "" : "Image not found in clipboard.";
 }
 
 async function convert_image() {
-  console.log("convert_image");
   if (blobOriginal == null) return;
-  // if (imageDataOriginal.value == null) return;
-  // var imageData = imageDataOriginal.value;
 
   // リサイズ
   const widthOrig = (await BlobToImageData(blobOriginal)).width;
   const scale =
     selection_size.value == "Original" ? 1 : selection_size.value == "Full" ? snippet_width / widthOrig : selection_size.value == "Half" ? snippet_width / widthOrig / 2 : 1; // should not reach here
-  console.log(scale);
-  // var imageData = await objectURLToImageData(imageOriginalCanvas.toDataURL(), scale);
   var imageData = await BlobToImageData(blobOriginal, scale);
 
   // フォーマット変換
@@ -178,13 +178,13 @@ watchEffect(() => {
 </script>
 
 <template >
-  <div>
-    <div>
-      <div class="image-input-container">
+  <div class="image-input">
+      <div class="image-input-buttons">
         <button class="thumbnail-button shadow" @click="paste_image">Paste Image from clipboard</button>
         <iconButton caption="Clear" icon="/img/clear.png" @click="setImage(null, '')" />
       </div>
-      <div class="post-input">
+      <div class="input-image-text">
+        <!-- parameters -->
         <label for="size"
           >Size
           <div>
@@ -216,19 +216,21 @@ watchEffect(() => {
           <label for="format-original">Original</label>
         </label>
 
-        <div>{{ post_thumb_mes }}</div>
-        <img class="" :src="imgUrlOutput" />
-
+        <!-- output -->
+        <div v-if="post_thumb_mes" class="input-image-message">{{ post_thumb_mes }}</div>
+        <img v-if="preview" class="" :src="imgUrlOutput" />
       </div>
     </div>
-  </div>
 </template>
 
 <style>
 :root {
   --colors-button-height: 26px;
 }
-.image-input-container {
+.image-input{
+  margin :10px 0;
+}
+.image-input-buttons {
   display: flex;
   gap: 10px;
 }
@@ -248,5 +250,11 @@ watchEffect(() => {
   height: 20px;
   /* height: var(--colors-button-height); */
   /* height:100%; */
+}
+.input-image-text{
+  font-size: 1em;
+}
+.input-image-message{
+  margin: 4px 0 0 0;
 }
 </style>

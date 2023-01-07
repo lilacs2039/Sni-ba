@@ -1,4 +1,4 @@
 {
-    "printWidth" : 180, // No line exceeds 100 characters
+    "printWidth" : 150, // No line exceeds 100 characters
     "singleQuote": false // Prefer double quotes over single quotes
 }

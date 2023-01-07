@@ -92,7 +92,7 @@ watchEffect(() => {
     </div>
 
     <div class="post-confirm">
-      <div>投稿TOML</div>
+      <div>TOML Preview</div>
       <code class="post-toml-code" wrap="off">
         <pre>{{ getToml() }}</pre>
       </code>

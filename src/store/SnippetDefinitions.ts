@@ -13,7 +13,10 @@ export class SnippetDefinitions {
             thumbnail: string,
             description: string,
             code: string,
-            visible: boolean
+            url: string,
+            // for UI
+            visible: boolean,
+            editable:boolean,
         }
     } = reactive({});
     public tagGroups: [
@@ -64,11 +67,12 @@ export class SnippetDefinitions {
                         data.snippets.forEach(x => {
                             this.dic[x.title] = {
                                 title: x.title,
-                                // icon: x.icon,
-                                thumbnail: x.thumbnail ? URL.createObjectURL(toBlob(x.thumbnail, 'image/png')) : "",  // undefined|"" -> ""
-                                description: x.description,
                                 code: x.code,
+                                thumbnail: x.thumbnail ? URL.createObjectURL(toBlob(x.thumbnail, 'image/png')) : "",  // undefined|"" -> ""
+                                description: x.description ?? "",
+                                url: x.url ?? "",
                                 visible: true,
+                                editable: false,
                             };
                         })
                 } catch (e) { console.error(`Parse error on ${tomlPath}. ${e}`); }
