@@ -33,28 +33,21 @@ function getToml(): string {
   // return json2toml({ snippets: post_snippets });
   return post_snippets
     .map(
-      (s) => `[[snippets]]
+      (s) =>
+        `[[snippets]]
 title = "${s.title}"
-description = """
-${s.description}
-"""
-url = "${s.url}"
-code = """
-${s.code}
-"""
-thumbnail = "${s.thumbnail}"
-`
+` +
+        (s.description ? (s.description.search(/\n/) == -1 ? `description = "${s.description}"\n` : `description = """\n${s.description}\n"""\n`) : "") +
+        (s.url ? `url = "${s.url}"\n` : "") +
+        (s.code.search(/\n/) == -1 ? `code = "${s.code}"\n` : `code = """\n${s.code}\n"""\n`) +
+        (s.thumbnail ? `thumbnail = "${s.thumbnail}"\n` : "")
     )
     .join("\n");
 }
 
 function post() {
   // GitHubのページへジャンプ
-  window.open(
-    `https://github.com/${user}/Sni-ba-snippets/edit/main/${langStr}.toml`,
-    "_blank",
-    "noreferrer"
-  );
+  window.open(`https://github.com/${user}/Sni-ba-snippets/edit/main/${langStr}.toml`, "_blank", "noreferrer");
 }
 
 const copy_mes = ref("");
@@ -65,20 +58,16 @@ function copy() {
     navigator.clipboard.writeText(ret); //.then(()=>...
     copy_mes.value = "Copied!";
     // 3秒待ってから文字を消す。
-    new Promise((resolve) => setTimeout(resolve, 3000)).then(
-      () => (copy_mes.value = "")
-    );
+    new Promise((resolve) => setTimeout(resolve, 3000)).then(() => (copy_mes.value = ""));
   } else alert("クリップボードへコピーできませんでした。");
 }
 
 var post_snippet_toml = ref("");
 
-
 watchEffect(() => {
   post_snippets;
   post_snippet_toml.value = getToml();
 });
-
 </script>
 
 <template>
@@ -86,40 +75,19 @@ watchEffect(() => {
     <div v-for="(snippet, i) in post_snippets" v-bind:key="i">
       <div class="post-items">
         <div class="post-key">title</div>
-        <input
-          type="text"
-          class="post-input post-value"
-          placeholder="タイトル..."
-          v-model="snippet.title"
-        />
+        <input type="text" class="post-input post-value" placeholder="タイトル..." v-model="snippet.title" />
 
         <div class="post-key">description</div>
-        <textarea
-          rows="5"
-          class="post-input"
-          placeholder="説明..."
-          v-model="snippet.description"
-        ></textarea>
+        <textarea rows="5" class="post-input" placeholder="説明..." v-model="snippet.description"></textarea>
 
         <div class="post-key">url</div>
-        <input
-          type="text"
-          class="post-input"
-          placeholder="参考URL..."
-          v-model="snippet.url"
-        />
+        <input type="text" class="post-input" placeholder="参考URL..." v-model="snippet.url" />
 
         <div class="post-key">thumbnail</div>
-        <imageInput class="post-input" @onChanged="b64=>snippet.thumbnail = b64"/>
-
+        <imageInput class="post-input" @onChanged="(b64) => (snippet.thumbnail = b64)" />
 
         <div class="post-key">code</div>
-        <textarea
-          rows="5"
-          class="post-input"
-          placeholder="コード..."
-          v-model="snippet.code"
-        ></textarea>
+        <textarea rows="5" class="post-input" placeholder="コード..." v-model="snippet.code"></textarea>
       </div>
     </div>
 
@@ -131,7 +99,7 @@ watchEffect(() => {
 
       <div class="post-buttons">
         <icon-text-button icon="/img/clipboard.png" text="Copy toml" @click="copy" />
-        <icon-text-button icon="/img/windowlink.png" text="Jump to Github..."  @click="post" />
+        <icon-text-button icon="/img/windowlink.png" text="Jump to Github..." @click="post" />
       </div>
       <div v-show="copy_mes != ''">{{ copy_mes }}</div>
     </div>
@@ -177,14 +145,13 @@ watchEffect(() => {
 }
 
 .post-toml-code {
-  margin : 10px 20px;
+  margin: 10px 20px;
 }
 
 .post-buttons {
   display: flex;
   gap: 10px;
 }
-
 
 .post-confirm {
   display: flex;
