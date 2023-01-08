@@ -24,7 +24,8 @@
     "rison": "^0.1.1",
     "sharp": "^0.31.3",
     "toml": "^3.0.0",
-    "vue": "^3.2.25"
+    "vue": "^3.2.25",
+    "vue3-highlightjs": "^1.0.5"
   },
   "devDependencies": {
     "@vitejs/plugin-vue": "^2.3.1",

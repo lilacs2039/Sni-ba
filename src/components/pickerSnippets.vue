@@ -75,9 +75,14 @@ function copy(snippet) {
           <div class="snippet-description" :contenteditable="item.editable" placeholder="description..." @blur="update('description', $event, item)">
             {{ item.description }}
           </div>
-          <code class="snippet-code">
-            <pre :contenteditable="item.editable" placeholder="code..." @blur="update('code', $event, item)">{{ item.code }}</pre>
-          </code>
+          <pre
+            :contenteditable="item.editable"
+            placeholder="code..."
+            @blur="update('code', $event, item)"
+            v-highlightjs
+          ><code class="snippet-code">{{ item.code }}</code></pre>
+          <!-- <pre v-highlightjs><code class="javascript">const s = new Date().toString()</code></pre> -->
+
           <div>
             <img class="snippet-url-icon" src="img/link.png" v-if="item.url" />
             <a class="snippet-url" placeholder="url..." :href="item.url" :contenteditable="item.editable" @blur="update('url', $event, item)">
