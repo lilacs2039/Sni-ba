@@ -16,7 +16,7 @@ export class SnippetDefinitions {
             url: string,
             // for UI
             visible: boolean,
-            editable:boolean,
+            editable: boolean,
         }
     } = reactive({});
     public tagGroups: [
@@ -94,13 +94,13 @@ export class SnippetDefinitions {
     }
 
     public search(searchStr: string) {
-        const words = searchStr.split(/\s/g).filter((w) => w != ""); //任意の空白文字で、複数ワード指定。
+        const words = searchStr.toLowerCase().split(/\s/g).filter((w) => w != ""); //任意の空白文字で、複数ワード指定。
         console.log(words);
         Object.values(this.dic).forEach(snippet => {
             // visible=trueの条件
             // ・スニペットのタイトル・説明・コードのいずれかにキーワードが含まれること
             // ・キーワードすべてが含まれること。
-            const targets = [snippet.title, snippet.description, snippet.code];
+            const targets = [snippet.title.toLowerCase(), snippet.description.toLowerCase(), snippet.code.toLowerCase()];
             snippet.visible = words.every((w) => targets.some((t) => t.includes(w)));
         });
     }

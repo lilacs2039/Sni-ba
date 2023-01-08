@@ -1,11 +1,7 @@
 <script setup lang="ts">
 import { ref, reactive, inject, provide } from "vue";
 import { EditorContext } from "../store/EditorContext";
-import {
-  langStrKey,
-  editorContextKey,
-  snippetDefinitionsKey,
-} from "../store/keys";
+import { langStrKey, editorContextKey, snippetDefinitionsKey } from "../store/keys";
 import { SnippetDefinitions } from "../store/SnippetDefinitions";
 import iconButton from "./iconButton.vue";
 import iconTextButton from "./iconTextButton.vue";
@@ -22,10 +18,7 @@ function _clear() {
   searchStr.value = "";
 }
 function _findGoogle() {
-  window.open(
-    `https://www.google.com/search?q=${langStr} ${searchStr.value}`,
-    "_blank"
-  );
+  window.open(`https://www.google.com/search?q=${langStr} ${searchStr.value}`, "_blank");
 }
 
 const user = "lilacs2039";
@@ -35,70 +28,52 @@ function show(area: string) {
 }
 function newLang() {
   // GitHubのページへジャンプ
-  window.open(
-    `https://github.com/${user}/Sni-ba-snippets/new/main`,
-    "_blank",
-    "noreferrer"
-  );
+  window.open(`https://github.com/${user}/Sni-ba-snippets/new/main`, "_blank", "noreferrer");
+}
+
+// --------------------------- serach ---------------------------
+var searchTaskId: number | null = null;
+function fireSearch() {
+  if (searchTaskId) window.clearTimeout(searchTaskId);
+  searchTaskId = window.setTimeout(() => search(), 200);
+}
+function search() {
+  snippetDefinitions.search(searchStr.value);
 }
 </script>
 
 <template class="picker">
   <!-- メニュー -->
   <div class="menu">
-    <icon-text-button
-      text="View"
-      icon="/img/side-right-view.png"
-      @click="show('search')"
-    />
-    <icon-text-button
-      text="Post..."
-      icon="/img/upload.png"
-      @click="show('post')"
-    />
-    <icon-text-button
-      text="New lang..."
-      icon="/img/blank-file.png"
-      @click="newLang"
-    />
+    <icon-text-button text="View" icon="/img/side-right-view.png" @click="show('search')" />
+    <icon-text-button text="Post..." icon="/img/upload.png" @click="show('post')" />
+    <icon-text-button text="New lang..." icon="/img/blank-file.png" @click="newLang" />
   </div>
   <post_area v-show="showArea == 'post'" />
   <!-- 検索 -->
   <div v-show="showArea == 'search'">
     <div class="search-container">
-      <input
-        type="search"
-        class="filter-input"
-        id="filter-snippet"
-        placeholder="Filter..."
-        v-model="searchStr"
-        v-on:change="snippetDefinitions.search(searchStr)"
-      />
+      <input type="search" class="filter-input" id="filter-snippet" placeholder="Filter..." v-model="searchStr" @keyup="fireSearch" />
+      <!-- v-on:change="snippetDefinitions.search(searchStr)" -->
       <div class="search-buttons">
         <iconButton caption="Clear" icon="/img/clear.png" @click="_clear" />
-        <iconButton
-          caption="Google..."
-          icon="img/windowlink.png"
-          @click="_findGoogle"
-        />
+        <iconButton caption="Google..." icon="img/windowlink.png" @click="_findGoogle" />
       </div>
 
       <div class="search-tags">
-        <div
-          class="search-tag-group"
-          v-for="(tagGroup, i) in snippetDefinitions.tagGroups"
-          v-bind:key="i"
-        >
+        <div class="search-tag-group" v-for="(tagGroup, i) in snippetDefinitions.tagGroups" v-bind:key="i">
           <span>{{ tagGroup.name }}：</span>
-            <button v-for="(tagtext, index) in tagGroup.tags" v-bind:key="index"
-              class="search-tag"
-              @click="
-                searchStr += ' ' + tagtext;
-                snippetDefinitions.search(searchStr);
-              "
-            >
-              {{ tagtext }}
-            </button>
+          <button
+            v-for="(tagtext, index) in tagGroup.tags"
+            v-bind:key="index"
+            class="search-tag"
+            @click="
+              searchStr += ' ' + tagtext;
+              snippetDefinitions.search(searchStr);
+            "
+          >
+            {{ tagtext }}
+          </button>
         </div>
       </div>
     </div>
@@ -142,7 +117,7 @@ function newLang() {
   /* display: flex; */
   /* flex-wrap: wrap; */
 }
-.search-tag{
+.search-tag {
   height: 2em;
 }
 .search-tag-group {
