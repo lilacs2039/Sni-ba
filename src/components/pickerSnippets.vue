@@ -63,6 +63,16 @@ function copy_code(copy_str) {
     navigator.clipboard.writeText(copy_str);
   } else alert("Could not copy to clipboard.");
 }
+
+function addSnippet() {
+  const snippet = {
+    title: "new snippet",
+    code: "code here",
+    editable: true,
+  };
+  snippet.tomlCache = getToml(snippet);
+  snippetDefinitions?.addSnippet(snippet);
+}
 </script>
 
 <template>
@@ -71,7 +81,7 @@ function copy_code(copy_str) {
       <li class="snippet-list" v-show="item.visible" v-on:mouseover="showSnippet = item" v-on:mouseleave="showSnippet = null">
         <div class="snippet-operation" v-if="showSnippet == item">
           <iconButton class="snippet-pin-icon" caption="Pin" icon="/img/pin.png" @click="context.addSnippet(item)" />
-          <iconButton class="snippet-edit-icon" caption="Edit" icon="/img/edit.png" @click="edit(item)" />
+          <iconButton class="snippet-edit-icon" caption="Edit" :icon="item.editable?'/img/edit_active.png':'/img/edit.png'" @click="edit(item)" />
         </div>
         <div class="picker-snippet snippet">
           <div class="snippet-title" :contenteditable="item.editable" placeholder="title..." @blur="update('title', $event, item)">
@@ -82,13 +92,7 @@ function copy_code(copy_str) {
             {{ item.description }}
           </div>
           <div class="snippet-code-container">
-            <iconButton
-              v-if="showSnippet == item"
-              class="snippet-code-copy"
-              caption="Copy"
-              icon="/img/copy.png"
-              @click="copy_code(item.code)"
-            />
+            <iconButton v-if="showSnippet == item" class="snippet-code-copy" caption="Copy" icon="/img/copy.png" @click="copy_code(item.code)" />
             <pre
               :contenteditable="item.editable"
               placeholder="code..."
@@ -120,6 +124,9 @@ function copy_code(copy_str) {
         <div class="snippet-margin"></div>
       </li>
     </template>
+    <li class="snippet-list">
+      <icon-text-button icon="/img/add-list.png" text="Add snippet..." @click="addSnippet" />
+    </li>
   </ul>
 </template>
 
@@ -185,7 +192,7 @@ function copy_code(copy_str) {
   height: 0.8em;
 }
 .snippet-margin {
-  height: 50px;
+  height: 20px;
 }
 .picker-snippet {
 }

@@ -46,7 +46,7 @@ function search() {
   <!-- メニュー -->
   <div class="menu">
     <icon-text-button text="View" icon="/img/side-right-view.png" @click="show('search')" />
-    <icon-text-button text="Post..." icon="/img/upload.png" @click="show('post')" />
+    <!-- <icon-text-button text="Post..." icon="/img/upload.png" @click="show('post')" /> -->
     <icon-text-button text="New lang..." icon="/img/blank-file.png" @click="newLang" />
   </div>
   <post_area v-show="showArea == 'post'" />

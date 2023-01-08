@@ -30,24 +30,6 @@ export class SnippetDefinitions {
 
         // GitHubからtomlのリスト取得
         const user = "lilacs2039";
-
-        function toBlob(b64: string, type: string): Blob {
-            if (b64 == undefined) return new Blob();
-            // var bin = Buffer.from(b64.replace(/^.*,/, ''), 'base64');
-            var bin = window.atob(b64.replace(/^.*,/, ''));
-            var buffer = new Uint8Array(bin.length);
-            for (var i = 0; i < bin.length; i++) {
-                buffer[i] = bin.charCodeAt(i);
-            }
-            // Blobを作成
-            try {
-                var blob = new Blob([buffer.buffer], {
-                    type: type
-                });
-            } catch (e) { return new Blob(); }
-            return blob;
-        }
-
         const tomlPath = `https://raw.githubusercontent.com/${user}/Sni-ba-snippets/main/${langStr}.toml`;
         fetch(tomlPath)
             .then(response => response.text())
@@ -65,15 +47,16 @@ export class SnippetDefinitions {
 
                     if (data.snippets != undefined)
                         data.snippets.forEach(x => {
-                            this.dic[x.title] = {
-                                title: x.title,
-                                code: x.code,
-                                thumbnail: x.thumbnail ? URL.createObjectURL(toBlob(x.thumbnail, 'image/png')) : "",  // undefined|"" -> ""
-                                description: x.description ?? "",
-                                url: x.url ?? "",
-                                visible: true,
-                                editable: false,
-                            };
+                            this.addSnippet(x);
+                            // this.dic[x.title] = {
+                            //     title: x.title,
+                            //     code: x.code,
+                            //     thumbnail: x.thumbnail ? URL.createObjectURL(toBlob(x.thumbnail, 'image/png')) : "",  // undefined|"" -> ""
+                            //     description: x.description ?? "",
+                            //     url: x.url ?? "",
+                            //     visible: true,
+                            //     editable: false,
+                            // };
                         })
                 } catch (e) { console.error(`Parse error on ${tomlPath}. ${e}`); }
 
@@ -81,6 +64,35 @@ export class SnippetDefinitions {
 
 
 
+
+    }
+    public addSnippet(snippet) {
+        function toBlob(b64: string, type: string): Blob {
+            if (b64 == undefined) return new Blob();
+            // var bin = Buffer.from(b64.replace(/^.*,/, ''), 'base64');
+            var bin = window.atob(b64.replace(/^.*,/, ''));
+            var buffer = new Uint8Array(bin.length);
+            for (var i = 0; i < bin.length; i++) {
+                buffer[i] = bin.charCodeAt(i);
+            }
+            // Blobを作成
+            try {
+                var blob = new Blob([buffer.buffer], {
+                    type: type
+                });
+            } catch (e) { return new Blob(); }
+            return blob;
+        }
+        const x = snippet;
+        this.dic[x.title] = {
+            title: x.title ?? "",
+            code: x.code ?? "",
+            thumbnail: x.thumbnail ? URL.createObjectURL(toBlob(x.thumbnail, 'image/png')) : "",  // undefined|"" -> ""
+            description: x.description ?? "",
+            url: x.url ?? "",
+            visible: x.visible ?? true,
+            editable: x.editable ?? false,
+        };
 
     }
 
