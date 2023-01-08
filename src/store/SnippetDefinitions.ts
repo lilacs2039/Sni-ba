@@ -45,17 +45,8 @@ export class SnippetDefinitions {
                         });
 
                     if (data.snippets != undefined)
-                        data.snippets.forEach(x => {
+                        data.snippets.forEach((x:any) => {
                             this.addSnippet(x);
-                            // this.dic[x.title] = {
-                            //     title: x.title,
-                            //     code: x.code,
-                            //     thumbnail: x.thumbnail ? URL.createObjectURL(toBlob(x.thumbnail, 'image/png')) : "",  // undefined|"" -> ""
-                            //     description: x.description ?? "",
-                            //     url: x.url ?? "",
-                            //     visible: true,
-                            //     editable: false,
-                            // };
                         })
                 } catch (e) { console.error(`Parse error on ${tomlPath}. ${e}`); }
 
@@ -65,7 +56,7 @@ export class SnippetDefinitions {
 
 
     }
-    public addSnippet(snippet) {
+    public addSnippet(snippet:any) {
         function toBlob(b64: string, type: string): Blob {
             if (b64 == undefined) return new Blob();
             // var bin = Buffer.from(b64.replace(/^.*,/, ''), 'base64');
@@ -101,7 +92,7 @@ export class SnippetDefinitions {
             tagGroup = { name: key, tags: new Set<string>() };
             this.tagGroups.push(tagGroup)
         }
-        tags.forEach(t => tagGroup.tags.add(t));
+        tags.forEach(t => tagGroup?.tags.add(t));
     }
 
     public search(searchStr: string) {

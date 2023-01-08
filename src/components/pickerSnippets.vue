@@ -101,7 +101,7 @@ function addSnippet() {
             ><code class="snippet-code">{{ item.code }}</code></pre>
           </div>
           <div>
-            <img class="snippet-url-icon" src="img/link.png" v-if="item.url" />
+            <img class="snippet-url-icon" src="./assets/link.png" v-if="item.url" />
             <a class="snippet-url" placeholder="url..." :href="item.url" :contenteditable="item.editable" @blur="update('url', $event, item)">
               {{ item.url }}</a
             >

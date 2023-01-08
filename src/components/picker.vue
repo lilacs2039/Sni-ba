@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import { ref, reactive, inject, provide } from "vue";
-import { EditorContext } from "../store/EditorContext";
-import { langStrKey, editorContextKey, snippetDefinitionsKey } from "../store/keys";
+import { langStrKey,  snippetDefinitionsKey } from "../store/keys";
 import { SnippetDefinitions } from "../store/SnippetDefinitions";
 import iconButton from "./iconButton.vue";
 import iconTextButton from "./iconTextButton.vue";
@@ -9,7 +8,6 @@ import pickerSnippets from "./pickerSnippets.vue";
 
 const langStr = inject(langStrKey) as string;
 const snippetDefinitions = inject(snippetDefinitionsKey) as SnippetDefinitions;
-const editorContext = inject(editorContextKey) as EditorContext;
 const searchStr = ref("");
 
 function _clear() {
