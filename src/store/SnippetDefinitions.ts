@@ -14,6 +14,7 @@ export class SnippetDefinitions {
             code: string,
             url: string,
             // for UI
+            thumbnail_url:string,
             visible: boolean,
             editable: boolean,
         }
@@ -77,7 +78,8 @@ export class SnippetDefinitions {
         this.dic[x.title] = {
             title: x.title ?? "",
             code: x.code ?? "",
-            thumbnail: x.thumbnail ? URL.createObjectURL(toBlob(x.thumbnail, 'image/png')) : "",  // undefined|"" -> ""
+            thumbnail: x.thumbnail ?? "", 
+            thumbnail_url: x.thumbnail ? URL.createObjectURL(toBlob(x.thumbnail, 'image/png')) : "", 
             description: x.description ?? "",
             url: x.url ?? "",
             visible: x.visible ?? true,

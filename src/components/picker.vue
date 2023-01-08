@@ -42,9 +42,8 @@ function search() {
 <template class="picker">
   <!-- メニュー -->
   <div class="menu">
-    <icon-text-button text="View" icon="/img/side-right-view.png" @click="show('search')" />
-    <!-- <icon-text-button text="Post..." icon="/img/upload.png" @click="show('post')" /> -->
-    <icon-text-button text="New lang..." icon="/img/blank-file.png" @click="newLang" />
+    <icon-text-button text="View" icon="img/side-right-view.png" @click="show('search')" />
+    <icon-text-button text="New lang..." icon="img/blank-file.png" @click="newLang" />
   </div>
   <post_area v-show="showArea == 'post'" />
   <!-- 検索 -->
@@ -53,7 +52,7 @@ function search() {
       <input type="search" class="filter-input" id="filter-snippet" placeholder="Filter..." v-model="searchStr" @keyup="fireSearch" />
       <!-- v-on:change="snippetDefinitions.search(searchStr)" -->
       <div class="search-buttons">
-        <iconButton caption="Clear" icon="/img/clear.png" @click="_clear" />
+        <iconButton caption="Clear" icon="img/clear.png" @click="_clear" />
         <iconButton caption="Google..." icon="img/windowlink.png" @click="_findGoogle" />
       </div>
 

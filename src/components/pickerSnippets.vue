@@ -19,12 +19,16 @@ function edit(snippet) {
   console.log(snippet);
   snippet.tomlCache = getToml(snippet);
 }
-function update(attribute: string, event: Event, snippet) {
+function updateOnChanged(attribute: string, event: Event, snippet) {
   const content = (event.target as HTMLInputElement).innerText.trim();
+  doUpdate(snippet, content, snippet);
+}
+function doUpdate(attribute: string, content: string, snippet) {
   if (attribute == "title") snippet.title = content;
   else if (attribute == "description") snippet.description = content;
   else if (attribute == "code") snippet.code = content;
   else if (attribute == "url") snippet.url = content;
+  else if (attribute == "thumbnail") snippet.thumbnail = content;
   snippet.tomlCache = getToml(snippet);
 }
 
@@ -66,8 +70,8 @@ function copy_code(copy_str) {
 
 function addSnippet() {
   const snippet = {
-    title: "new snippet",
-    code: "code here",
+    title: "", //"new snippet",
+    code: "", //"code here",
     editable: true,
   };
   snippet.tomlCache = getToml(snippet);
@@ -78,45 +82,62 @@ function addSnippet() {
 <template>
   <ul class="snippets-container">
     <template v-for="(item, index) in Object.values(snippetDefinitions.dic)" v-bind:key="index">
-      <li class="snippet-list" v-show="item.visible" v-on:mouseover="showSnippet = item" v-on:mouseleave="showSnippet = null">
+      <li
+        class="snippet-list"
+        :class="item.editable ? 'snippet-list_editing' : ''"
+        v-show="item.visible"
+        v-on:mouseover="showSnippet = item"
+        v-on:mouseleave="showSnippet = null"
+      >
         <div class="snippet-operation" v-if="showSnippet == item">
-          <iconButton class="snippet-pin-icon" caption="Pin" icon="/img/pin.png" @click="context.addSnippet(item)" />
-          <iconButton class="snippet-edit-icon" caption="Edit" :icon="item.editable?'/img/edit_active.png':'/img/edit.png'" @click="edit(item)" />
+          <iconButton class="snippet-pin-icon" caption="Pin" icon="img/pin.png" @click="context.addSnippet(item)" />
+          <iconButton class="snippet-edit-icon" caption="Edit" :icon="item.editable ? 'img/edit_active.png' : 'img/edit.png'" @click="edit(item)" />
         </div>
         <div class="picker-snippet snippet">
-          <div class="snippet-title" :contenteditable="item.editable" placeholder="title..." @blur="update('title', $event, item)">
+          <div class="snippet-title" :contenteditable="item.editable" placeholder="title..." @blur="updateOnChanged('title', $event, item)">
             {{ item.title }}
           </div>
-          <img class="snippet-thumbnail" :src="`${item.thumbnail}`" v-show="item.thumbnail != ''" />
-          <div class="snippet-description" :contenteditable="item.editable" placeholder="description..." @blur="update('description', $event, item)">
+          <img class="snippet-thumbnail" :src="`${item.thumbnail_url}`" v-if="item.thumbnail_url" />
+          <div
+            class="snippet-description"
+            :contenteditable="item.editable"
+            placeholder="description..."
+            @blur="updateOnChanged('description', $event, item)"
+          >
             {{ item.description }}
           </div>
           <div class="snippet-code-container">
-            <iconButton v-if="showSnippet == item" class="snippet-code-copy" caption="Copy" icon="/img/copy.png" @click="copy_code(item.code)" />
+            <iconButton v-if="showSnippet == item" class="snippet-code-copy" caption="Copy" icon="img/copy.png" @click="copy_code(item.code)" />
             <pre
               :contenteditable="item.editable"
               placeholder="code..."
-              @blur="update('code', $event, item)"
+              @blur="updateOnChanged('code', $event, item)"
               v-highlightjs
             ><code class="snippet-code">{{ item.code }}</code></pre>
           </div>
           <div>
             <img class="snippet-url-icon" src="./assets/link.png" v-if="item.url" />
-            <a class="snippet-url" placeholder="url..." :href="item.url" :contenteditable="item.editable" @blur="update('url', $event, item)">
+            <a
+              class="snippet-url"
+              placeholder="url..."
+              :href="item.url"
+              :contenteditable="item.editable"
+              @blur="updateOnChanged('url', $event, item)"
+            >
               {{ item.url }}</a
             >
           </div>
           <!-- Edit tools -->
           <div v-if="item.editable">
             <hr />
-            <imageInput class="post-input" @onChanged="(b64) => (item.thumbnail = b64)" />
+            <imageInput class="post-input" @onChanged="(b64) => doUpdate('thumbnail', b64, item)" />
             <div>TOML Preview</div>
             <code class="snippet-code" wrap="off">
               <pre>{{ item.tomlCache }}</pre>
             </code>
             <div class="post-buttons">
-              <icon-text-button icon="/img/copy.png" text="1. Copy toml" @click="copy(item)" />
-              <icon-text-button icon="/img/github.png" text="2. Edit on Github..." @click="post" />
+              <icon-text-button icon="img/copy.png" text="1. Copy toml" @click="copy(item)" />
+              <icon-text-button icon="img/github.png" text="2. Edit on Github..." @click="post" />
             </div>
             <div v-show="copy_mes != ''">{{ copy_mes }}</div>
           </div>
@@ -125,7 +146,7 @@ function addSnippet() {
       </li>
     </template>
     <li class="snippet-list">
-      <icon-text-button icon="/img/add-list.png" text="Add snippet..." @click="addSnippet" />
+      <icon-text-button icon="img/add-list.png" text="Add snippet..." @click="addSnippet" />
     </li>
   </ul>
 </template>
@@ -156,6 +177,9 @@ function addSnippet() {
   /* width:var(--snippet-width); */
   margin: 0px 15px;
   position: relative;
+}
+.snippet-list_editing {
+  background-color: #ccc;
 }
 .snippet {
   gap: 3px;

@@ -181,7 +181,7 @@ watchEffect(() => {
   <div class="image-input">
       <div class="image-input-buttons">
         <button class="thumbnail-button shadow" @click="paste_image">Paste Image from clipboard</button>
-        <iconButton caption="Clear" icon="/img/clear.png" @click="setImage(null, '')" />
+        <iconButton caption="Clear" icon="img/clear.png" @click="setImage(null, '')" />
       </div>
       <div class="input-image-text">
         <!-- parameters -->
@@ -256,5 +256,8 @@ watchEffect(() => {
 }
 .input-image-message{
   margin: 4px 0 0 0;
+}
+.thumbnail-button{
+  flex-grow:1;
 }
 </style>
