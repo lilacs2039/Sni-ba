@@ -18,21 +18,8 @@ the Place(場-ba) to store Snippets
 # 設定
 
 - コード管理：[https://github.com/lilacs2039/Sni-ba](https://github.com/lilacs2039/Sni-ba)
-~~
-- ホスティング：GCP Firebase Hosting
-  - プロジェクト名：Snippets-codes
-- - デプロイ：GitHub Actions
-  - secretsの管理　https://github.com/lilacs2039/Snippet-codes/settings/secrets
-  - サービスアカウント： github-action-496595256
-  - secret：FIREBASE_SERVICE_ACCOUNT_SNIPPET_CODES
-  - masterブランチにPRをマージした時、自動的にデプロイする。
-  - デプロイ前に、`npm ci && npm run build`を実行する（ビルド環境セットアップ＆ビルド実行）
-- Firebase プロジェクトコンソール
-  -  https://console.firebase.google.com/project/snippet-codes/overview
-- ホスティングURL
-  - https://snippet-codes.web.app
 
-~~
+
 
 
 # 環境構築
