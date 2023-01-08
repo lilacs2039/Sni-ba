@@ -2,7 +2,6 @@ import { ref, reactive, inject } from "vue";
 // import snippetsDefinitionUrl from "../assets/snippets.tsv?url";
 import batUrl from "../assets/bat.tsv?url";
 import tagsContent from "../assets/tags.txt?raw";
-import { stringify } from "query-string";
 import toml from "toml";
 export const KEY_LANG: string = "lang";
 

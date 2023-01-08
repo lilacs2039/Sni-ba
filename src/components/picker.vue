@@ -6,7 +6,6 @@ import { SnippetDefinitions } from "../store/SnippetDefinitions";
 import iconButton from "./iconButton.vue";
 import iconTextButton from "./iconTextButton.vue";
 import pickerSnippets from "./pickerSnippets.vue";
-import post_area from "./post-area.vue";
 
 const langStr = inject(langStrKey) as string;
 const snippetDefinitions = inject(snippetDefinitionsKey) as SnippetDefinitions;

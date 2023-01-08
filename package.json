@@ -8,28 +8,21 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@types/marked": "^4.0.7",
     "@types/query-string": "^6.3.0",
     "@types/rison": "^0.0.7",
-    "@types/sharp": "^0.31.0",
     "firebase": "^9.12.1",
-    "gif-encoder-2-browser": "^1.0.5",
     "gifenc-rs": "^0.1.0",
     "json2toml": "^4.0.1",
-    "make-a-gif": "^4.1.2",
-    "marked": "^4.2.2",
     "mediancut": "^2.1.0",
     "path": "^0.12.7",
     "query-string": "^7.1.1",
     "rison": "^0.1.1",
-    "sharp": "^0.31.3",
     "toml": "^3.0.0",
     "vue": "^3.2.25",
     "vue3-highlightjs": "^1.0.5"
   },
   "devDependencies": {
     "@vitejs/plugin-vue": "^2.3.1",
-    "rgba-image-gif": "git@github.com:lilacs2039/rgba-image-gif.git",
     "typescript": "^4.5.4",
     "vite": "^2.9.7",
     "vue-tsc": "^0.34.7"
