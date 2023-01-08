@@ -55,7 +55,13 @@ function copy(snippet) {
     copy_mes.value = "Copied!";
     // wait 3sec & hide message
     new Promise((resolve) => setTimeout(resolve, 3000)).then(() => (copy_mes.value = ""));
-  } else alert("クリップボードへコピーできませんでした。");
+  } else alert("Could not copy to clipboard.");
+}
+
+function copy_code(copy_str) {
+  if (navigator.clipboard) {
+    navigator.clipboard.writeText(copy_str);
+  } else alert("Could not copy to clipboard.");
 }
 </script>
 
@@ -75,14 +81,21 @@ function copy(snippet) {
           <div class="snippet-description" :contenteditable="item.editable" placeholder="description..." @blur="update('description', $event, item)">
             {{ item.description }}
           </div>
-          <pre
-            :contenteditable="item.editable"
-            placeholder="code..."
-            @blur="update('code', $event, item)"
-            v-highlightjs
-          ><code class="snippet-code">{{ item.code }}</code></pre>
-          <!-- <pre v-highlightjs><code class="javascript">const s = new Date().toString()</code></pre> -->
-
+          <div class="snippet-code-container">
+            <iconButton
+              v-if="showSnippet == item"
+              class="snippet-code-copy"
+              caption="Copy"
+              icon="/img/copy.png"
+              @click="copy_code(item.code)"
+            />
+            <pre
+              :contenteditable="item.editable"
+              placeholder="code..."
+              @blur="update('code', $event, item)"
+              v-highlightjs
+            ><code class="snippet-code">{{ item.code }}</code></pre>
+          </div>
           <div>
             <img class="snippet-url-icon" src="img/link.png" v-if="item.url" />
             <a class="snippet-url" placeholder="url..." :href="item.url" :contenteditable="item.editable" @blur="update('url', $event, item)">
@@ -186,5 +199,15 @@ function copy(snippet) {
 .post-buttons {
   display: flex;
   gap: 10px;
+}
+
+.snippet-code-container {
+  position: relative;
+}
+.snippet-code-copy {
+  position: absolute;
+  right: 0px;
+  top: 0px;
+  margin: 1px;
 }
 </style>
