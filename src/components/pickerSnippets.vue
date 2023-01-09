@@ -89,7 +89,7 @@ function addSnippet() {
         v-on:mouseover="showSnippet = item"
         v-on:mouseleave="showSnippet = null"
       >
-        <div class="snippet-operation" v-if="showSnippet == item">
+        <div class="snippet-operation" v-show="showSnippet == item">
           <iconButton class="snippet-pin-icon" caption="Pin" icon="img/pin.png" @click="context.addSnippet(item)" />
           <iconButton class="snippet-edit-icon" caption="Edit" :icon="item.editable ? 'img/edit_active.png' : 'img/edit.png'" @click="edit(item)" />
         </div>
@@ -107,7 +107,7 @@ function addSnippet() {
             {{ item.description }}
           </div>
           <div class="snippet-code-container">
-            <iconButton v-if="showSnippet == item" class="snippet-code-copy" caption="Copy" icon="img/copy.png" @click="copy_code(item.code)" />
+            <iconButton v-show="showSnippet == item" class="snippet-code-copy" caption="Copy" icon="img/copy.png" @click="copy_code(item.code)" />
             <pre
               :contenteditable="item.editable"
               placeholder="code..."
