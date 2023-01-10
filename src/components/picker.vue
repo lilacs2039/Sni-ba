@@ -49,7 +49,7 @@ function search() {
   <!-- 検索 -->
   <div v-show="showArea == 'search'">
     <div class="search-container">
-      <input type="search" class="filter-input" id="filter-snippet" placeholder="Filter..." v-model="searchStr" @keyup="fireSearch" />
+      <input type="search" class="filter-input" id="filter-snippet" placeholder="🔍Filter..." v-model="searchStr" @keyup="fireSearch" />
       <!-- v-on:change="snippetDefinitions.search(searchStr)" -->
       <div class="search-buttons">
         <iconButton caption="Clear" icon="img/clear.png" @click="_clear" />

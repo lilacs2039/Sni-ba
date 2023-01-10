@@ -92,6 +92,9 @@ npm run dev
 
 ```
 npm run build
+
+# TypeScript文法チェックなしの場合
+npm run build-nocheck
 ```
 
 

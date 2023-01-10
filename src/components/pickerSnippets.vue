@@ -98,7 +98,11 @@ function addSnippet() {
         </div>
         <div class="picker-snippet snippet">
           <div class="snippet-title" :contenteditable="item.editable" placeholder="title..." @blur="updateOnChanged('title', $event, item)">
-            {{ item.title ? item.title : "(no title)" }}
+            <!-- <template v-if="item.editable">{{ item.title}}</template>
+            <template v-else>{{ item.title ? item.title : "(no title)" }}</template> -->
+            <!-- {{ item.title ? item.title : item.editable ? "" : "(no title)" }} -->
+            {{ item.title ? item.title : (item.editable ? "" : "(no title)") }}
+            <!-- {{ item.title ? item.title : "(no title)" }} -->
           </div>
           <img class="snippet-thumbnail" :src="`${item.thumbnail_url}`" v-if="item.thumbnail_url" />
           <div
@@ -111,10 +115,13 @@ function addSnippet() {
           </div>
           <div class="snippet-code-container">
             <iconButton v-show="showSnippet == item" class="snippet-code-copy" caption="Copy" icon="img/copy.png" @click="copy_code(item.code)" />
-            <pre v-highlightjs><code class="snippet-code"
-              :contenteditable="item.editable"
+            <!-- Editable -->
+            <pre v-if="item.editable"><code class="snippet-code"
+              contenteditable
               placeholder="code..."
               @blur="updateOnChanged('code', $event, item)">{{ item.code }}</code></pre>
+            <!-- Not Editable -->
+            <pre v-else v-highlightjs><code class="snippet-code">{{ item.code }}</code></pre>
           </div>
           <div>
             <img class="snippet-url-icon" src="./assets/link.png" v-if="item.url" />
@@ -201,9 +208,11 @@ function addSnippet() {
   flex-grow: 1;
 }
 .snippet-code {
-  display: flex;
-  align-items: center;
-  vertical-align: middle;
+  display: block;
+  overflow-x: auto;
+  padding: 1em;
+  /* align-items: center; */
+  /* vertical-align: middle; */
 }
 .snippet-description {
   font-size: 0.8em;
@@ -211,6 +220,8 @@ function addSnippet() {
 }
 .snippet-url {
   font-size: 0.8em;
+  display: block;
+  overflow-x: auto;
 }
 .snippet-url-icon {
   height: 0.8em;
