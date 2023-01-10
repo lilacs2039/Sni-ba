@@ -14,7 +14,7 @@ export class SnippetDefinitions {
             code: string,
             url: string,
             // for UI
-            thumbnail_url:string,
+            thumbnail_url: string,
             visible: boolean,
             editable: boolean,
         }
@@ -46,7 +46,7 @@ export class SnippetDefinitions {
                         });
 
                     if (data.snippets != undefined)
-                        data.snippets.forEach((x:any) => {
+                        data.snippets.forEach((x: any) => {
                             this.addSnippet(x);
                         })
                 } catch (e) { console.error(`Parse error on ${tomlPath}. ${e}`); }
@@ -57,7 +57,7 @@ export class SnippetDefinitions {
 
 
     }
-    public addSnippet(snippet:any) {
+    public addSnippet(snippet: any) {
         function toBlob(b64: string, type: string): Blob {
             if (b64 == undefined) return new Blob();
             // var bin = Buffer.from(b64.replace(/^.*,/, ''), 'base64');
@@ -75,11 +75,11 @@ export class SnippetDefinitions {
             return blob;
         }
         const x = snippet;
-        this.dic[x.title] = {
+        this.dic[SnippetDefinitions.getKey(x)] = {
             title: x.title ?? "",
             code: x.code ?? "",
-            thumbnail: x.thumbnail ?? "", 
-            thumbnail_url: x.thumbnail ? URL.createObjectURL(toBlob(x.thumbnail, 'image/png')) : "", 
+            thumbnail: x.thumbnail ?? "",
+            thumbnail_url: x.thumbnail ? URL.createObjectURL(toBlob(x.thumbnail, 'image/png')) : "",
             description: x.description ?? "",
             url: x.url ?? "",
             visible: x.visible ?? true,
@@ -87,6 +87,10 @@ export class SnippetDefinitions {
         };
 
     }
+
+    public removeSnippet(snippet: any) { delete this.dic[SnippetDefinitions.getKey(snippet)] }
+
+    public static getKey(snippet): string { return `${snippet.title}` }
 
     public addTags(key: string, tags: string[]) {
         var tagGroup = this.tagGroups.find(t => t.name == key);

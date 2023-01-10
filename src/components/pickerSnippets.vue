@@ -16,16 +16,18 @@ const showSnippet = ref(null);
 
 function edit(snippet) {
   snippet.editable = !snippet.editable;
-  console.log(snippet);
   snippet.tomlCache = getToml(snippet);
 }
 function updateOnChanged(attribute: string, event: Event, snippet) {
   const content = (event.target as HTMLInputElement).innerText.trim();
-  doUpdate(snippet, content, snippet);
+  doUpdate(attribute, content, snippet);
 }
 function doUpdate(attribute: string, content: string, snippet) {
-  if (attribute == "title") snippet.title = content;
-  else if (attribute == "description") snippet.description = content;
+  if (attribute == "title") {
+    snippetDefinitions.removeSnippet(snippet)
+    snippet.title = content;
+    snippetDefinitions.addSnippet(snippet)
+  } else if (attribute == "description") snippet.description = content;
   else if (attribute == "code") snippet.code = content;
   else if (attribute == "url") snippet.url = content;
   else if (attribute == "thumbnail") snippet.thumbnail = content;
