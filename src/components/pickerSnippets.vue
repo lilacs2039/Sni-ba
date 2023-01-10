@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { time } from "console";
 import { ref, reactive, inject } from "vue";
 import { Context } from "../store/Context";
 import { editorContextKey, snippetDefinitionsKey, langStrKey } from "../store/keys";
@@ -24,9 +25,9 @@ function updateOnChanged(attribute: string, event: Event, snippet) {
 }
 function doUpdate(attribute: string, content: string, snippet) {
   if (attribute == "title") {
-    snippetDefinitions.removeSnippet(snippet)
+    snippetDefinitions.removeSnippet(snippet);
     snippet.title = content;
-    snippetDefinitions.addSnippet(snippet)
+    snippetDefinitions.addSnippet(snippet);
   } else if (attribute == "description") snippet.description = content;
   else if (attribute == "code") snippet.code = content;
   else if (attribute == "url") snippet.url = content;
@@ -42,7 +43,7 @@ title = "${s.title}"
 ` +
     (s.description ? (s.description.search(/\n/) == -1 ? `description = "${s.description}"\n` : `description = """\n${s.description}\n"""\n`) : "") +
     (s.url ? `url = "${s.url}"\n` : "") +
-    (s.code.search(/\n/) == -1 ? `code = "${s.code}"\n` : `code = """\n${s.code}\n"""\n`) +
+    (s.code.search(/\n/) == -1 ? `code = """${s.code}"""\n` : `code = """\n${s.code}\n"""\n`) +
     (s.thumbnail ? `thumbnail = "${s.thumbnail}"\n` : "")
   );
 }
@@ -87,7 +88,7 @@ function addSnippet() {
       <li
         class="snippet-list"
         :class="item.editable ? 'snippet-list_editing' : ''"
-        v-show="item.visible"
+        v-show="item.visible || item.editable"
         v-on:mouseover="showSnippet = item"
         v-on:mouseleave="showSnippet = null"
       >
@@ -97,7 +98,7 @@ function addSnippet() {
         </div>
         <div class="picker-snippet snippet">
           <div class="snippet-title" :contenteditable="item.editable" placeholder="title..." @blur="updateOnChanged('title', $event, item)">
-            {{ item.title }}
+            {{ item.title ? item.title : "(no title)" }}
           </div>
           <img class="snippet-thumbnail" :src="`${item.thumbnail_url}`" v-if="item.thumbnail_url" />
           <div
@@ -110,23 +111,20 @@ function addSnippet() {
           </div>
           <div class="snippet-code-container">
             <iconButton v-show="showSnippet == item" class="snippet-code-copy" caption="Copy" icon="img/copy.png" @click="copy_code(item.code)" />
-            <pre
+            <pre v-highlightjs><code class="snippet-code"
               :contenteditable="item.editable"
               placeholder="code..."
-              @blur="updateOnChanged('code', $event, item)"
-              v-highlightjs
-            ><code class="snippet-code">{{ item.code }}</code></pre>
+              @blur="updateOnChanged('code', $event, item)">{{ item.code }}</code></pre>
           </div>
           <div>
             <img class="snippet-url-icon" src="./assets/link.png" v-if="item.url" />
             <a
               class="snippet-url"
-              placeholder="url..."
               :href="item.url"
               :contenteditable="item.editable"
+              placeholder="url..."
               @blur="updateOnChanged('url', $event, item)"
-            >
-              {{ item.url }}</a
+              >{{ item.url }}</a
             >
           </div>
           <!-- Edit tools -->
